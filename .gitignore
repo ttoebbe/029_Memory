@@ -21,8 +21,12 @@ Thumbs.db
 # Env and secrets
 .env*
 
-# Asset download script (contains Figma API token)
-download-assets.js
+# Figma Downloader Config (contains API token)
+figma-assets.config.js
+figma-downloader.js
+FigmaDownloader.md
+
+
 
 # Claude Code local settings (may contain tokens)
 .claude/settings.local.json
