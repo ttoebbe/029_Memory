@@ -23,7 +23,7 @@ const ASSETS = [
   { id: '46:11',     dest: 'assets/icons/logo-icon.svg',              fmt: 'svg', scale: 1 },
   { id: '2030:350',  dest: 'assets/icons/stadia-controller.svg',      fmt: 'svg', scale: 1 },
   { id: '2285:3914', dest: 'assets/icons/chess-pawn.svg',             fmt: 'svg', scale: 1 },
-  { id: '2230:3789', dest: 'assets/icons/move-item.svg',              fmt: 'svg', scale: 1 },
+  { id: '2030:394',  dest: 'assets/icons/move-item.svg',              fmt: 'svg', scale: 1 },
   { id: '2030:96',   dest: 'assets/icons/fiber-manual-record.svg',    fmt: 'svg', scale: 1 },
   { id: '2285:4025', dest: 'assets/icons/palette.svg',                fmt: 'svg', scale: 1 },
   { id: '2062:2559', dest: 'assets/icons/mode-standby.svg',           fmt: 'svg', scale: 1 },
@@ -233,8 +233,7 @@ async function main() {
   // 3. Build download tasks (Figma returns IDs with hyphen, not colon)
   const failures = [];
   const tasks = ASSETS.map(asset => async () => {
-    const key = asset.id.replace(':', '-');
-    const dlUrl = urlMap[key];
+    const dlUrl = urlMap[asset.id];
     if (!dlUrl) {
       failures.push({ dest: asset.dest, reason: 'no URL returned by Figma (node may not be exportable)' });
       console.log('  SKIP  ' + asset.dest);
