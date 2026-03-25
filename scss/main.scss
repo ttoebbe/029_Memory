@@ -1,0 +1,12 @@
+@use './base/typography';
+@use './components/main';
+
+
+$grey-bg: blue ;
+
+
+h1{
+    color: $grey-bg;    
+}
+
+

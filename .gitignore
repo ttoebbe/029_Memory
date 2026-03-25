@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+/dist/
+/build/
+/.parcel-cache/
+/.vite/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor and system files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Env and secrets
+.env*
+
+# Misc
+AGENTS.md
+claude.md
+helpdesk/
+.github/
+
+
