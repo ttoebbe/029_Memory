@@ -1,11 +1,11 @@
 # Dependencies
-node_modules/
+
 
 # Build artifacts
 /dist/
 /build/
 /.parcel-cache/
-/.vite/
+
 
 # Logs
 npm-debug.log*

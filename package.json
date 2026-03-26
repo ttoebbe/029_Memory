@@ -1,0 +1,27 @@
+{
+  "name": "029_memory",
+  "version": "1.0.0",
+  "description": "![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)\r ![SCSS](https://img.shields.io/badge/SCSS-7--1_Pattern-CC6699?logo=sass&logoColor=white)\r ![Vite](https://img.shields.io/badge/Vite-Bundler-646CFF?logo=vite&logoColor=white)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ttoebbe/029_Memory.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ttoebbe/029_Memory/issues"
+  },
+  "homepage": "https://github.com/ttoebbe/029_Memory#readme",
+  "devDependencies": {
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3"
+  }
+}
