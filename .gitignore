@@ -14,7 +14,7 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Editor and system files
-.vscode/
+#.vscode/
 .DS_Store
 Thumbs.db
 
