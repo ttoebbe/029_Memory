@@ -1,0 +1,88 @@
+@use '../abstract/functions' as functions;
+@use '../abstract/mixin' as mixin;
+
+.view--settings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: functions.px-to-rem(48);
+  padding: functions.px-to-rem(48) functions.px-to-rem(64);
+  min-height: 100vh;
+
+  @include mixin.respond(md) {
+    grid-template-columns: 1fr;
+    padding: functions.px-to-rem(32) functions.px-to-rem(24);
+  }
+}
+
+.settings {
+  &__title {
+    font-size: functions.px-to-rem(40);
+    font-weight: 800;
+    color: var(--color-text);
+    margin-bottom: functions.px-to-rem(8);
+    border-bottom: 3px solid var(--color-accent);
+    padding-bottom: functions.px-to-rem(4);
+    display: inline-block;
+  }
+
+  &__group {
+    margin-top: functions.px-to-rem(32);
+  }
+
+  &__group-title {
+    font-size: functions.px-to-rem(18);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: functions.px-to-rem(12);
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: functions.px-to-rem(10);
+    margin-bottom: functions.px-to-rem(10);
+    cursor: pointer;
+    font-size: functions.px-to-rem(16);
+    color: var(--color-text);
+
+    input[type='radio'] {
+      accent-color: var(--color-accent);
+      width: functions.px-to-rem(18);
+      height: functions.px-to-rem(18);
+    }
+  }
+
+  &__separator {
+    opacity: 0.4;
+    margin: 0 functions.px-to-rem(8);
+  }
+
+  &__right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__preview {
+    flex: 1;
+    background-color: var(--color-header-bg);
+    border-radius: var(--radius-card);
+    min-height: functions.px-to-rem(280);
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    gap: functions.px-to-rem(4);
+    padding: functions.px-to-rem(16);
+    background-color: var(--color-header-bg);
+    border-radius: var(--radius-card);
+    margin-top: functions.px-to-rem(16);
+    font-size: functions.px-to-rem(16);
+    color: var(--color-text);
+
+    .btn {
+      margin-left: auto;
+    }
+  }
+}

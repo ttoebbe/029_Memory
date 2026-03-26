@@ -1,31 +1,57 @@
-@use "../abstract/mixin" as mixin;
-@use "../abstract/functions" as functions;
+@use '../abstract/functions' as functions;
+@use '../abstract/mixin' as mixin;
 
-.card {
-  background-color: black;
-  padding: functions.px-to-rem(16);
-  border-radius: functions.px-to-rem(8);
+.memory-card {
+  perspective: functions.px-to-rem(600);
+  cursor: pointer;
+  aspect-ratio: 1;
 
-  @include mixin.respond(sm) {
-    font-size: functions.px-to-rem(10);
+  &__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
   }
 
-  @include mixin.flex-center;
-  @include mixin.fade-in(2.5s, ease-out);
-
-  &__title {
-    color: green;
+  &--flipped &__inner {
+    transform: rotateY(180deg);
   }
 
-  &__text {
-    color: white;
+  &--matched {
+    cursor: default;
+    opacity: 0.75;
+  }
 
-    &--highlight {
-      color: yellow;
+  &__front,
+  &__back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    @include mixin.flex-center;
+    overflow: hidden;
+  }
+
+  &__back {
+    background-color: var(--color-card-back);
+
+    img {
+      width: 50%;
+      height: 50%;
+      object-fit: contain;
     }
+  }
 
-    &:hover {
-      background-color: gray;
+  &__front {
+    transform: rotateY(180deg);
+    background-color: #ffffff;
+
+    img {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
     }
   }
 }

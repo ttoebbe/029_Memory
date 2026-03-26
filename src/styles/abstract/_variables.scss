@@ -2,3 +2,18 @@ $breakpoints: (
   sm: 480px,
   md: 768px,
 ) !default;
+
+// Default theme tokens (overridden by theme classes on <body>)
+:root {
+  --color-bg: #3d3d3d;
+  --color-text: #ffffff;
+  --color-accent: #f5d60a;
+  --color-card-back: #4ecdc4;
+  --color-player-blue: #3db8f5;
+  --color-player-orange: #f5a623;
+  --color-header-bg: rgba(255, 255, 255, 0.08);
+  --color-btn-ghost-border: rgba(255, 255, 255, 0.5);
+  --radius-card: 0.5rem;
+  --radius-btn: 0.25rem;
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, 0.4);
+}

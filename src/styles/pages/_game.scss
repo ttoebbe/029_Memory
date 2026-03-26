@@ -1,0 +1,8 @@
+@use '../abstract/functions' as functions;
+
+.view--game {
+  display: flex;
+  flex-direction: column;
+  padding: functions.px-to-rem(24) functions.px-to-rem(32);
+  min-height: 100vh;
+}

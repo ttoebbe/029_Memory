@@ -37,5 +37,6 @@ claude.md
 helpdesk/
 .github/
 .claude/
+.playwright-mcp/
 
 

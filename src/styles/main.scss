@@ -1,12 +1,27 @@
+// Abstract (variables must be first – defines CSS custom properties via :root)
+@use './abstract/variables';
+
+// Base
+@use './base/reset';
 @use './base/typography';
+
+// Themes (override custom properties)
+@use './themes/theme-1';
+@use './themes/theme-2';
+
+// Components
 @use './components/main';
 
+// Layout
+@use './layout/game-board';
 
-$grey-bg: blue ;
+// Pages
+@use './pages/home';
+@use './pages/settings';
+@use './pages/game';
+@use './pages/result';
 
-
-h1{
-    color: $grey-bg;    
+// App-level helpers
+.view {
+  width: 100%;
 }
-
-

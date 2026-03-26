@@ -1,3 +1,4 @@
-import "./styles/main.scss";
+import './styles/main.scss';
+import { initApp } from './app';
 
-document.getElementById("h1_hello")!.innerText = "Hallo World!";
+initApp();

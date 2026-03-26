@@ -1,0 +1,46 @@
+@use '../abstract/functions' as functions;
+@use '../abstract/mixin' as mixin;
+
+.score-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: functions.px-to-rem(10) functions.px-to-rem(16);
+  background-color: var(--color-header-bg);
+  border-radius: var(--radius-card);
+  margin-bottom: functions.px-to-rem(24);
+  font-size: functions.px-to-rem(16);
+
+  @include mixin.respond(sm) {
+    flex-direction: column;
+    gap: functions.px-to-rem(8);
+  }
+
+  &__scores {
+    display: flex;
+    gap: functions.px-to-rem(16);
+  }
+
+  &__player {
+    display: flex;
+    align-items: center;
+    gap: functions.px-to-rem(6);
+    font-weight: 600;
+  }
+
+  &__current {
+    display: flex;
+    align-items: center;
+    gap: functions.px-to-rem(8);
+  }
+
+  &__dot {
+    display: inline-block;
+    width: functions.px-to-rem(12);
+    height: functions.px-to-rem(12);
+    border-radius: 50%;
+
+    &--blue { background-color: var(--color-player-blue); }
+    &--orange { background-color: var(--color-player-orange); }
+  }
+}
