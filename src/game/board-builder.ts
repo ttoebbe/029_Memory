@@ -4,9 +4,9 @@ import { getState } from './game-state';
 
 /** Shuffles an array in-place using Fisher-Yates */
 function shuffleArray<T>(array: T[]): T[] {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+  for (let outerIndex = array.length - 1; outerIndex > 0; outerIndex--) {
+    const swapIndex = Math.floor(Math.random() * (outerIndex + 1));
+    [array[outerIndex], array[swapIndex]] = [array[swapIndex], array[outerIndex]];
   }
   return array;
 }

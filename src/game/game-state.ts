@@ -58,7 +58,7 @@ export function addScore(player: PlayerId): void {
 
 /** Registers a flipped card; returns current flipped cards */
 export function registerFlip(cardId: number): GameState['flippedCards'] {
-  const card = state.cards.find((c) => c.id === cardId);
+  const card = state.cards.find((card) => card.id === cardId);
   if (card) {
     card.isFlipped = true;
     state.flippedCards.push(card);
@@ -68,13 +68,13 @@ export function registerFlip(cardId: number): GameState['flippedCards'] {
 
 /** Marks both flipped cards as matched and clears the flip buffer */
 export function resolveMatch(): void {
-  state.flippedCards.forEach((c) => (c.isMatched = true));
+  state.flippedCards.forEach((card) => (card.isMatched = true));
   state.flippedCards = [];
 }
 
 /** Unflips both cards in the flip buffer and clears it */
 export function resolveNoMatch(): void {
-  state.flippedCards.forEach((c) => (c.isFlipped = false));
+  state.flippedCards.forEach((card) => (card.isFlipped = false));
   state.flippedCards = [];
 }
 

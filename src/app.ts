@@ -12,9 +12,9 @@ let isProcessing = false;
 
 /** Returns the root element */
 function getRoot(): HTMLElement {
-  const el = document.getElementById(ROOT_ID);
-  if (!el) throw new Error(`#${ROOT_ID} not found`);
-  return el;
+  const rootElement = document.getElementById(ROOT_ID);
+  if (!rootElement) throw new Error(`#${ROOT_ID} not found`);
+  return rootElement;
 }
 
 /** Renders the current view into #app */
@@ -39,12 +39,12 @@ function applyThemeClass(): void {
 
 /** Reads settings form values and updates state */
 function syncSettingsFromForm(): void {
-  const themeEl = document.querySelector<HTMLInputElement>('input[name="theme"]:checked');
-  const playerEl = document.querySelector<HTMLInputElement>('input[name="player"]:checked');
-  const sizeEl = document.querySelector<HTMLInputElement>('input[name="board-size"]:checked');
-  if (themeEl) updateSettings({ themeId: themeEl.value as ThemeId });
-  if (playerEl) updateSettings({ currentPlayer: playerEl.value as PlayerId });
-  if (sizeEl) updateSettings({ boardSize: Number(sizeEl.value) as BoardSize });
+  const themeInput = document.querySelector<HTMLInputElement>('input[name="theme"]:checked');
+  const playerInput = document.querySelector<HTMLInputElement>('input[name="player"]:checked');
+  const sizeInput = document.querySelector<HTMLInputElement>('input[name="board-size"]:checked');
+  if (themeInput) updateSettings({ themeId: themeInput.value as ThemeId });
+  if (playerInput) updateSettings({ currentPlayer: playerInput.value as PlayerId });
+  if (sizeInput) updateSettings({ boardSize: Number(sizeInput.value) as BoardSize });
 }
 
 /** Starts a new game from settings */

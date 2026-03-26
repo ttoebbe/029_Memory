@@ -23,7 +23,7 @@ const THEME_1_IMAGES: string[] = [
 
 const THEME_2_IMAGES: string[] = Array.from(
   { length: 16 },
-  (_, i) => `/assets/icons/icons_2/front-card-${String(i + 1).padStart(2, '0')}.svg`
+  (_, index) => `/assets/icons/icons_2/front-card-${String(index + 1).padStart(2, '0')}.svg`
 );
 
 const THEMES: Record<ThemeId, Theme> = {

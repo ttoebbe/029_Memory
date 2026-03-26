@@ -14,7 +14,7 @@ import {
 export function canFlipCard(cardId: number): boolean {
   const { cards, flippedCards } = getState();
   if (flippedCards.length >= 2) return false;
-  const card = cards.find((c) => c.id === cardId);
+  const card = cards.find((card) => card.id === cardId);
   return !!card && !card.isFlipped && !card.isMatched;
 }
 
@@ -28,7 +28,7 @@ function determineWinner(): PlayerId | 'draw' {
 
 /** Checks if all cards are matched */
 function isGameOver(): boolean {
-  return getState().cards.every((c) => c.isMatched);
+  return getState().cards.every((card) => card.isMatched);
 }
 
 /** Handles post-match logic: score, next turn or game over */
@@ -52,8 +52,8 @@ export function processFlip(cardId: number): 'flipped' | 'match' | 'no-match' | 
   const flipped = registerFlip(cardId);
   if (flipped.length < 2) return 'flipped';
 
-  const [a, b] = flipped;
-  if (a.pairId === b.pairId) {
+  const [firstCard, secondCard] = flipped;
+  if (firstCard.pairId === secondCard.pairId) {
     handleMatch(getState().settings.currentPlayer);
     return 'match';
   }

@@ -55,7 +55,7 @@ export function renderGameView(): string {
   const { cards, settings } = getState();
   const theme = getTheme(settings.themeId);
   const gridClass = `game-board--${settings.boardSize}`;
-  const cardHtml = cards.map((c) => renderCard(c, theme.backCardImage)).join('');
+  const cardHtml = cards.map((card) => renderCard(card, theme.backCardImage)).join('');
 
   return `
     <section class="view view--game" data-view="game" data-theme="${settings.themeId}">

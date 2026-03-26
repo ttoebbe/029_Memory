@@ -15,7 +15,7 @@ function renderRadio(name: string, value: string, label: string, checked: boolea
 /** Renders the theme selection list */
 function renderThemeOptions(currentTheme: ThemeId): string {
   return getAllThemes()
-    .map((t) => renderRadio('theme', t.id, t.name, t.id === currentTheme))
+    .map((theme) => renderRadio('theme', theme.id, theme.name, theme.id === currentTheme))
     .join('');
 }
 
@@ -31,7 +31,7 @@ function renderPlayerOptions(currentPlayer: PlayerId): string {
 function renderBoardSizeOptions(currentSize: BoardSize): string {
   const sizes: BoardSize[] = [16, 24, 36];
   return sizes
-    .map((s) => renderRadio('board-size', String(s), `${s} cards`, s === currentSize))
+    .map((size) => renderRadio('board-size', String(size), `${size} cards`, size === currentSize))
     .join('');
 }
 
