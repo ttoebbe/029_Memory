@@ -112,7 +112,7 @@ function handleClick(event: Event): void {
   else if (action === 'start-game') startGame();
   else if (action === 'show-exit-dialog') { getRoot().insertAdjacentHTML('beforeend', renderExitDialog()); }
   else if (action === 'dismiss-exit-dialog') { document.querySelector('.exit-dialog-overlay')?.remove(); }
-  else if (action === 'exit-game') { setView('home'); renderCurrentView(); }
+  else if (action === 'exit-game') { setView('game-over'); renderCurrentView(); }
   else if (action === 'go-home') { resetAll(); renderCurrentView(); }
   else if (action === 'flip-card') {
     const cardId = Number(target.dataset['cardId']);

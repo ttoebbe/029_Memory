@@ -31,6 +31,15 @@ FigmaDownloader.md
 # Claude Code local settings (may contain tokens)
 .claude/settings.local.json
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# node_modules
+node_modules/
+
 # Misc
 AGENTS.md
 claude.md

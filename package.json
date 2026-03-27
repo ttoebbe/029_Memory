@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -noEmit && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
   },
   "homepage": "https://github.com/ttoebbe/029_Memory#readme",
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "sass": "^1.98.0",
     "typescript": "^6.0.2",
     "vite": "^8.0.3"
