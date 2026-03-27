@@ -93,8 +93,22 @@ function handleClick(event: Event): void {
   }
 }
 
+/** Syncs a single changed radio to state and re-renders the settings view */
+function handleSettingsChange(event: Event): void {
+  const target = event.target as HTMLInputElement;
+  if (!target.name) return;
+
+  if (target.name === 'theme') updateSettings({ themeId: target.value as ThemeId });
+  else if (target.name === 'player') updateSettings({ currentPlayer: target.value as PlayerId });
+  else if (target.name === 'board-size') updateSettings({ boardSize: Number(target.value) as BoardSize });
+  else return;
+
+  renderCurrentView();
+}
+
 /** Bootstraps the app */
 export function initApp(): void {
   document.addEventListener('click', handleClick);
+  document.addEventListener('change', handleSettingsChange);
   renderCurrentView();
 }
