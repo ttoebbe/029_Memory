@@ -41,6 +41,14 @@
     flex-shrink: 0;
   }
 
+  // Theme-2 pawn icons used as score indicators (portrait aspect ratio)
+  &__score-icon {
+    height: functions.px-to-rem(24);
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
   &__pawn {
     height: functions.px-to-rem(36);
     width: auto;

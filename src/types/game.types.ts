@@ -42,6 +42,25 @@ export interface GameState {
   winner: PlayerId | 'draw' | null;
 }
 
+/** SVG asset paths and CSS classes used across views, per theme */
+export interface ThemeUiAssets {
+  scoreIconBlue: string;
+  scoreIconOrange: string;
+  scoreIconClass: string;
+  currentPlayerIconBlue: string;
+  currentPlayerIconOrange: string;
+  currentPlayerIconClass: string;
+  exitBtnSrc: string;
+  popupBackToGameBtnSrc: string;
+  popupConfirmExitBtnSrc: string;
+  gameOverTitleSrc: string;
+  homeBtnSrc: string;
+  winnerDecorationBlue: string;
+  winnerDecorationOrange: string;
+  winnerDecorationClass: string;
+  confettiSrc: string | null;
+}
+
 /** Theme definition */
 export interface Theme {
   id: ThemeId;
@@ -49,4 +68,5 @@ export interface Theme {
   cardBackClass: string;
   cardImages: string[];
   backCardImage: string;
+  uiAssets: ThemeUiAssets;
 }

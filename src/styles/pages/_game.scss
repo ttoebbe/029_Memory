@@ -49,7 +49,8 @@
     cursor: pointer;
 
     img {
-      height: functions.px-to-rem(57);
+      height: auto;
+      max-height: functions.px-to-rem(60);
       width: auto;
       display: block;
     }

@@ -1,27 +1,32 @@
 import { getState } from '../game/game-state';
-
-const ASSETS = '/assets/designs/theme_1';
+import { getTheme } from '../game/theme-config';
 
 /** Renders the game-over screen with final scores */
 export function renderGameOverView(): string {
-  const { players } = getState();
+  const { players, settings } = getState();
+  const { uiAssets } = getTheme(settings.themeId);
+
+  const confetti = uiAssets.confettiSrc
+    ? `<img class="result__confetti" src="${uiAssets.confettiSrc}" alt="" aria-hidden="true">`
+    : '';
+
   return `
     <section class="view view--result" data-view="game-over">
-      <img class="result__confetti" src="${ASSETS}/Confetti.svg" alt="" aria-hidden="true">
-      <img class="result__game-over-title" src="${ASSETS}/text_game_over.svg" alt="Game over">
+      ${confetti}
+      <img class="result__game-over-title" src="${uiAssets.gameOverTitleSrc}" alt="Game over">
       <p class="result__subtitle">Final score</p>
       <div class="result__scores">
         <span class="result__score result__score--blue">
-          <img class="result__label-icon" src="${ASSETS}/point_label_blue.svg" alt="" aria-hidden="true">
+          <img class="result__label-icon" src="${uiAssets.scoreIconBlue}" alt="" aria-hidden="true">
           Blue ${players.blue.score}
         </span>
         <span class="result__score result__score--orange">
-          <img class="result__label-icon" src="${ASSETS}/point_label_orange.svg" alt="" aria-hidden="true">
+          <img class="result__label-icon" src="${uiAssets.scoreIconOrange}" alt="" aria-hidden="true">
           Orange ${players.orange.score}
         </span>
       </div>
       <button class="result__action-btn" data-action="go-home" aria-label="Back to start">
-        <img src="${ASSETS}/back-to-start-button.svg" alt="Back to start">
+        <img src="${uiAssets.homeBtnSrc}" alt="Home">
       </button>
     </section>
   `;
@@ -29,7 +34,8 @@ export function renderGameOverView(): string {
 
 /** Renders the winner screen */
 export function renderWinnerView(): string {
-  const { winner, players } = getState();
+  const { winner, players, settings } = getState();
+  const { uiAssets } = getTheme(settings.themeId);
   const isDraw = winner === 'draw';
   const winnerLabel = isDraw
     ? 'Draw!'
@@ -41,19 +47,29 @@ export function renderWinnerView(): string {
     ? String(players.blue.score)
     : String(players.orange.score);
   const pawnColor = isDraw ? 'blue' : (winner as string);
+  const decorationSrc = pawnColor === 'blue'
+    ? uiAssets.winnerDecorationBlue
+    : uiAssets.winnerDecorationOrange;
+  const scoreLabelSrc = pawnColor === 'blue'
+    ? uiAssets.scoreIconBlue
+    : uiAssets.scoreIconOrange;
+
+  const confetti = uiAssets.confettiSrc
+    ? `<img class="result__confetti" src="${uiAssets.confettiSrc}" alt="" aria-hidden="true">`
+    : '';
 
   return `
     <section class="view view--result view--winner" data-view="winner">
-      <img class="result__confetti" src="${ASSETS}/Confetti.svg" alt="" aria-hidden="true">
-      <img class="result__pawn" src="${ASSETS}/chess_pawn_${pawnColor}.svg" alt="" aria-hidden="true">
+      ${confetti}
+      <img class="${uiAssets.winnerDecorationClass}" src="${decorationSrc}" alt="" aria-hidden="true">
       <p class="result__subtitle">The winner is</p>
       <h1 class="result__title result__title--winner ${winnerClass}">${winnerLabel}</h1>
       <div class="result__score-row">
-        <img class="result__label-icon" src="${ASSETS}/point_label_${pawnColor}.svg" alt="" aria-hidden="true">
+        <img class="result__label-icon" src="${scoreLabelSrc}" alt="" aria-hidden="true">
         <span class="result__score-display">${score}</span>
       </div>
       <button class="result__action-btn" data-action="go-home" aria-label="Back to start">
-        <img src="${ASSETS}/back-to-start-button.svg" alt="Back to start">
+        <img src="${uiAssets.homeBtnSrc}" alt="Home">
       </button>
     </section>
   `;

@@ -99,6 +99,17 @@
   }
 }
 
+// Theme-2 winner decoration: trophy/cup image
+.result__trophy {
+  height: functions.px-to-rem(200);
+  width: auto;
+  object-fit: contain;
+
+  @include mixin.respond(sm) {
+    height: functions.px-to-rem(140);
+  }
+}
+
 .result__action-btn {
   background: none;
   border: none;
