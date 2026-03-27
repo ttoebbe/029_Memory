@@ -3,7 +3,7 @@ import { buildCards } from './game/board-builder';
 import { processFlip, processNoMatch } from './game/card-logic';
 import { renderHomeView } from './views/home-view';
 import { renderSettingsView } from './views/settings-view';
-import { renderGameView } from './views/game-view';
+import { renderGameView, renderExitDialog } from './views/game-view';
 import { renderGameOverView, renderWinnerView } from './views/result-view';
 import type { ThemeId, PlayerId, BoardSize, ViewName } from './types/game.types';
 
@@ -85,6 +85,8 @@ function handleClick(event: Event): void {
 
   if (action === 'go-to-settings') { setView('settings'); renderCurrentView(); }
   else if (action === 'start-game') startGame();
+  else if (action === 'show-exit-dialog') { getRoot().insertAdjacentHTML('beforeend', renderExitDialog()); }
+  else if (action === 'dismiss-exit-dialog') { document.querySelector('.exit-dialog-overlay')?.remove(); }
   else if (action === 'exit-game') { setView('home'); renderCurrentView(); }
   else if (action === 'go-home') { resetAll(); renderCurrentView(); }
   else if (action === 'flip-card') {

@@ -6,3 +6,59 @@
   padding: functions.px-to-rem(24) functions.px-to-rem(32);
   min-height: 100vh;
 }
+
+.exit-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.exit-dialog {
+  background-color: var(--color-bg);
+  border-radius: var(--radius-card);
+  padding: functions.px-to-rem(40) functions.px-to-rem(48);
+  max-width: functions.px-to-rem(480);
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: functions.px-to-rem(32);
+
+  &__title {
+    font-size: functions.px-to-rem(24);
+    font-weight: 700;
+    text-align: center;
+    color: var(--color-text);
+  }
+
+  &__actions {
+    display: flex;
+    gap: functions.px-to-rem(16);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  &__btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    img {
+      height: functions.px-to-rem(57);
+      width: auto;
+      display: block;
+    }
+
+    &:hover { opacity: 0.85; }
+    &:active { transform: scale(0.97); }
+    &:focus-visible {
+      outline: 2px solid var(--color-card-back);
+      outline-offset: 3px;
+    }
+  }
+}

@@ -7,7 +7,7 @@
   gap: functions.px-to-rem(16);
   padding: functions.px-to-rem(32);
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .result {
@@ -18,11 +18,6 @@
 
     @include mixin.respond(sm) {
       font-size: functions.px-to-rem(48);
-    }
-
-    &--game-over {
-      color: var(--color-card-back);
-      text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
     }
 
     &--winner {
@@ -52,7 +47,7 @@
   &__score {
     display: flex;
     align-items: center;
-    gap: functions.px-to-rem(6);
+    gap: functions.px-to-rem(8);
 
     &--blue { color: var(--color-player-blue); }
     &--orange { color: var(--color-player-orange); }
@@ -64,26 +59,63 @@
     color: var(--color-text);
   }
 
-  &__home-btn {
-    margin-top: functions.px-to-rem(8);
+  &__score-row {
+    display: flex;
+    align-items: center;
+    gap: functions.px-to-rem(8);
   }
 }
 
-// Confetti decorative element (CSS-only, no animation lib needed)
-.confetti {
+.result__confetti {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
-  height: functions.px-to-rem(120);
+  max-width: functions.px-to-rem(1234);
   pointer-events: none;
-  background-image:
-    radial-gradient(circle, #f5d60a 2px, transparent 2px),
-    radial-gradient(circle, #3db8f5 2px, transparent 2px),
-    radial-gradient(circle, #f5a623 2px, transparent 2px),
-    radial-gradient(circle, #e74c3c 2px, transparent 2px),
-    radial-gradient(circle, #2ecc71 2px, transparent 2px);
-  background-size: 60px 60px, 80px 80px, 55px 55px, 70px 70px, 65px 65px;
-  background-position: 0 0, 20px 10px, 40px 5px, 10px 30px, 50px 20px;
-  opacity: 0.85;
+}
+
+.result__game-over-title {
+  width: min(functions.px-to-rem(998), 90vw);
+  height: auto;
+  object-fit: contain;
+}
+
+.result__label-icon {
+  width: functions.px-to-rem(24);
+  height: functions.px-to-rem(20);
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.result__pawn {
+  height: functions.px-to-rem(150);
+  width: auto;
+  object-fit: contain;
+
+  @include mixin.respond(sm) {
+    height: functions.px-to-rem(100);
+  }
+}
+
+.result__action-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-top: functions.px-to-rem(8);
+
+  img {
+    height: functions.px-to-rem(62);
+    width: auto;
+    display: block;
+  }
+
+  &:hover { opacity: 0.85; }
+  &:active { transform: scale(0.97); }
+  &:focus-visible {
+    outline: 2px solid var(--color-card-back);
+    outline-offset: 3px;
+  }
 }

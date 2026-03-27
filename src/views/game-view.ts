@@ -2,6 +2,8 @@ import { getState } from '../game/game-state';
 import { getTheme } from '../game/theme-config';
 import type { Card } from '../types/game.types';
 
+const ASSETS = '/assets/designs/theme_1';
+
 /** Renders a single memory card */
 function renderCard(card: Card, backImage: string): string {
   const flippedClass = card.isFlipped || card.isMatched ? 'memory-card--flipped' : '';
@@ -31,22 +33,45 @@ function renderScoreBar(): string {
     <header class="score-bar">
       <div class="score-bar__scores">
         <span class="score-bar__player score-bar__player--blue">
-          <span class="score-bar__dot score-bar__dot--blue"></span>
+          <img class="score-bar__label-icon" src="${ASSETS}/point_label_blue.svg" alt="" aria-hidden="true">
           Blue ${players.blue.score}
         </span>
         <span class="score-bar__player score-bar__player--orange">
-          <span class="score-bar__dot score-bar__dot--orange"></span>
+          <img class="score-bar__label-icon" src="${ASSETS}/point_label_orange.svg" alt="" aria-hidden="true">
           Orange ${players.orange.score}
         </span>
       </div>
       <p class="score-bar__current">
         Current player:
-        <span class="score-bar__dot score-bar__dot--${settings.currentPlayer}"></span>
+        <img class="score-bar__pawn"
+             src="${ASSETS}/chess_pawn_${settings.currentPlayer}.svg"
+             alt="${settings.currentPlayer} player's turn">
       </p>
-      <button class="btn btn--ghost" data-action="exit-game">
-        &#x2386; Exit game
+      <button class="score-bar__exit-btn" data-action="show-exit-dialog" aria-label="Exit game">
+        <img src="${ASSETS}/exit-game-button.svg" alt="Exit game">
       </button>
     </header>
+  `;
+}
+
+/** Renders the exit confirmation dialog overlay */
+export function renderExitDialog(): string {
+  return `
+    <div class="exit-dialog-overlay" data-action="dismiss-exit-dialog">
+      <div class="exit-dialog" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
+        <p id="exit-dialog-title" class="exit-dialog__title">
+          Are you sure you want to quit the game?
+        </p>
+        <div class="exit-dialog__actions">
+          <button class="exit-dialog__btn" data-action="dismiss-exit-dialog" aria-label="Back to game">
+            <img src="${ASSETS}/back-to-game-button.svg" alt="Back to game">
+          </button>
+          <button class="exit-dialog__btn" data-action="exit-game" aria-label="Exit game">
+            <img src="${ASSETS}/exit-game-button.svg" alt="Exit game">
+          </button>
+        </div>
+      </div>
+    </div>
   `;
 }
 
