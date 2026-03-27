@@ -35,11 +35,6 @@ export function updateSettings(partial: Partial<GameSettings>): void {
   state.settings = { ...state.settings, ...partial };
 }
 
-/** Sets the active player */
-export function setCurrentPlayer(player: PlayerId): void {
-  state.settings.currentPlayer = player;
-}
-
 /** Resets scores and cards for a new game, preserving settings */
 export function resetGame(cards: GameState['cards']): void {
   state.players = {
