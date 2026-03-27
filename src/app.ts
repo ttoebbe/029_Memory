@@ -8,6 +8,7 @@ import { renderGameOverView, renderWinnerView } from './views/result-view';
 import type { ThemeId, PlayerId, BoardSize, ViewName } from './types/game.types';
 
 const ROOT_ID = 'app';
+const FLIP_DURATION_MS = 500;
 let isProcessing = false;
 
 /** Returns the root element */
@@ -59,26 +60,45 @@ function startGame(): void {
 /** Handles card flip with no-match delay */
 function handleFlip(cardId: number): void {
   if (isProcessing) return;
-  const result = processFlip(cardId);
 
-  if (result === 'match' && getState().view === 'game-over') {
-    setView('game');
-    renderCurrentView();
+  const prevFlippedIds = getState().flippedCards.map(c => c.id);
+  const result = processFlip(cardId);
+  if (result === 'blocked') return;
+
+  // Animate by toggling class on the existing DOM element so CSS transition fires
+  document.querySelector<HTMLElement>(`[data-card-id="${cardId}"]`)
+    ?.classList.add('memory-card--flipped');
+
+  if (result === 'match') {
+    const matchedIds = [...prevFlippedIds, cardId];
     setTimeout(() => {
-      if (getState().winner !== 'draw') setView('winner');
-      else setView('game-over');
-      renderCurrentView();
-    }, 800);
-  } else {
-    renderCurrentView();
-    if (result === 'no-match') {
-      isProcessing = true;
+      matchedIds.forEach(id =>
+        document.querySelector(`[data-card-id="${id}"]`)?.classList.add('memory-card--matched')
+      );
+      if (getState().view === 'game-over') {
+        setView('game');
+        renderCurrentView();
+        setTimeout(() => {
+          setView(getState().winner !== 'draw' ? 'winner' : 'game-over');
+          renderCurrentView();
+        }, 800);
+      } else {
+        renderCurrentView();
+      }
+    }, FLIP_DURATION_MS);
+  } else if (result === 'no-match') {
+    isProcessing = true;
+    const noMatchIds = [...prevFlippedIds, cardId];
+    setTimeout(() => {
+      noMatchIds.forEach(id =>
+        document.querySelector(`[data-card-id="${id}"]`)?.classList.remove('memory-card--flipped')
+      );
       setTimeout(() => {
         processNoMatch();
         isProcessing = false;
         renderCurrentView();
-      }, 1000);
-    }
+      }, FLIP_DURATION_MS);
+    }, 1000);
   }
 }
 
