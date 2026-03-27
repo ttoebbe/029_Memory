@@ -43,7 +43,7 @@ const THEMES: Record<ThemeId, Theme> = {
       currentPlayerIconBlue: `${T1}/point_label_blue.svg`,
       currentPlayerIconOrange: `${T1}/point_label_orange.svg`,
       currentPlayerIconClass: 'score-bar__label-icon',
-      exitBtnSrc: `${T1}/exit-game-button.svg`,
+      exitBtnSrc: `${T1}/btn_exit_game_icon.svg`,
       popupBackToGameBtnSrc: `${T1}/back-to-game-button.svg`,
       popupConfirmExitBtnSrc: `${T1}/exit-game-button.svg`,
       gameOverTitleSrc: `${T1}/text_game_over.svg`,

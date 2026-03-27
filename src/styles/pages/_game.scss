@@ -4,7 +4,9 @@
   display: flex;
   flex-direction: column;
   padding: functions.px-to-rem(24) functions.px-to-rem(32);
-  min-height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .exit-dialog-overlay {
@@ -18,7 +20,7 @@
 }
 
 .exit-dialog {
-  background-color: var(--color-bg);
+  background-color: #ffffff;
   border-radius: var(--radius-card);
   padding: functions.px-to-rem(40) functions.px-to-rem(48);
   max-width: functions.px-to-rem(480);
@@ -32,7 +34,7 @@
     font-size: functions.px-to-rem(24);
     font-weight: 700;
     text-align: center;
-    color: var(--color-text);
+    color: #303131;
   }
 
   &__actions {
