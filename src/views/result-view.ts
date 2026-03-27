@@ -61,13 +61,9 @@ export function renderWinnerView(): string {
   return `
     <section class="view view--result view--winner" data-view="winner">
       ${confetti}
-      <img class="${uiAssets.winnerDecorationClass}" src="${decorationSrc}" alt="" aria-hidden="true">
       <p class="result__subtitle">The winner is</p>
       <h1 class="result__title result__title--winner ${winnerClass}">${winnerLabel}</h1>
-      <div class="result__score-row">
-        <img class="result__label-icon" src="${scoreLabelSrc}" alt="" aria-hidden="true">
-        <span class="result__score-display">${score}</span>
-      </div>
+      <img class="${uiAssets.winnerDecorationClass}" src="${decorationSrc}" alt="" aria-hidden="true">
       <button class="result__action-btn" data-action="go-home" aria-label="Back to start">
         <img src="${uiAssets.homeBtnSrc}" alt="Home">
       </button>
