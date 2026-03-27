@@ -67,7 +67,7 @@ export function renderSettingsView(): string {
     <section class="view view--settings" data-view="settings">
       <div class="settings__left">
         <h1 class="settings__title">Settings</h1>
-        <img src="${SETTINGS_SVG}/select-line.svg" class="settings__title-line" alt="">
+        <img src="${SETTINGS_SVG}/line_settings.svg" class="settings__title-line" alt="">
         <div class="settings__group">
           ${renderGroupTitle('palette.svg', 'Game themes')}
           ${renderThemeOptions(settings.themeId)}

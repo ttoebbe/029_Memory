@@ -60,20 +60,25 @@ function startGame(): void {
 function handleFlip(cardId: number): void {
   if (isProcessing) return;
   const result = processFlip(cardId);
-  renderCurrentView();
-  if (result === 'no-match') {
-    isProcessing = true;
-    setTimeout(() => {
-      processNoMatch();
-      isProcessing = false;
-      renderCurrentView();
-    }, 1000);
-  }
+
   if (result === 'match' && getState().view === 'game-over') {
+    setView('game');
+    renderCurrentView();
     setTimeout(() => {
       if (getState().winner !== 'draw') setView('winner');
+      else setView('game-over');
       renderCurrentView();
     }, 800);
+  } else {
+    renderCurrentView();
+    if (result === 'no-match') {
+      isProcessing = true;
+      setTimeout(() => {
+        processNoMatch();
+        isProcessing = false;
+        renderCurrentView();
+      }, 1000);
+    }
   }
 }
 
