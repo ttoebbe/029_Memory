@@ -74,6 +74,10 @@ body.theme-1 .view--home {
     display: block;
     height: functions.px-to-rem(60);
     width: auto;
+
+    @include mixin.respond(sm) {
+      height: functions.px-to-rem(48);
+    }
   }
 
   &:hover {

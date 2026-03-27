@@ -67,6 +67,14 @@
     img {
       height: functions.px-to-rem(57);
       width: auto;
+
+      @include mixin.respond(md) {
+        height: functions.px-to-rem(48);
+      }
+
+      @include mixin.respond(sm) {
+        height: functions.px-to-rem(40);
+      }
     }
 
     &:hover { opacity: 0.85; }

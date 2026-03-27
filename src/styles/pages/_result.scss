@@ -42,6 +42,12 @@
     border-radius: var(--radius-card);
     font-size: functions.px-to-rem(18);
     font-weight: 700;
+
+    @include mixin.respond(sm) {
+      flex-direction: column;
+      align-items: center;
+      padding: functions.px-to-rem(8) functions.px-to-rem(16);
+    }
   }
 
   &__score {
@@ -57,6 +63,10 @@
     font-size: functions.px-to-rem(32);
     font-weight: 700;
     color: var(--color-text);
+
+    @include mixin.respond(sm) {
+      font-size: functions.px-to-rem(24);
+    }
   }
 
   &__score-row {

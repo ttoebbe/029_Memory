@@ -1,4 +1,5 @@
 @use '../abstract/functions' as functions;
+@use '../abstract/mixin' as mixin;
 
 .view--game {
   display: flex;
@@ -7,6 +8,14 @@
   height: 100dvh;
   overflow: hidden;
   box-sizing: border-box;
+
+  @include mixin.respond(md) {
+    padding: functions.px-to-rem(16) functions.px-to-rem(20);
+  }
+
+  @include mixin.respond(sm) {
+    padding: functions.px-to-rem(12) functions.px-to-rem(16);
+  }
 }
 
 .exit-dialog-overlay {
