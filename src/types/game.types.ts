@@ -8,7 +8,7 @@ export type PlayerId = 'blue' | 'orange';
 export type BoardSize = 16 | 24 | 36;
 
 /** Available theme identifiers */
-export type ThemeId = 'theme-1' | 'theme-2';
+export type ThemeId = 'theme-1' | 'theme-2' | 'theme-4';
 
 /** A single memory card */
 export interface Card {
@@ -68,5 +68,6 @@ export interface Theme {
   cardBackClass: string;
   cardImages: string[];
   backCardImage: string;
+  settingsPreviewSrc: string;
   uiAssets: ThemeUiAssets;
 }

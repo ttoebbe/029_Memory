@@ -1,12 +1,12 @@
-import { getAllThemes } from '../game/theme-config';
+import { getAllThemes, getTheme } from '../game/theme-config';
 import { getState } from '../game/game-state';
 import type { ThemeId, PlayerId, BoardSize, GameSettings } from '../types/game.types';
 
 const SETTINGS_SVG = '/assets/designs/settings';
 
-/** Maps a ThemeId to its preview image filename */
+/** Returns the settings preview image path for a given theme */
 function resolvePreviewImage(themeId: ThemeId): string {
-  return `${SETTINGS_SVG}/settings_pic_${themeId.replace('-', '')}.svg`;
+  return getTheme(themeId).settingsPreviewSrc;
 }
 
 /** Renders the HTML template for a single radio option */
