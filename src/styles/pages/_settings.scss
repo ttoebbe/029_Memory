@@ -129,7 +129,7 @@
     align-items: center;
     gap: functions.px-to-rem(8);
     padding: functions.px-to-rem(12) functions.px-to-rem(20);
-    background-color: #e8e8e8;
+    background-color: var(--color-footer-bg);
     border-radius: var(--radius-card);
     font-size: functions.px-to-rem(16);
     color: var(--color-text);

@@ -45,7 +45,7 @@
 
   &__front {
     transform: rotateY(180deg);
-    background-color: #ffffff;
+    background-color: var(--color-card-front);
 
     img {
       width: 70%;

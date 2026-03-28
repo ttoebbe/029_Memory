@@ -36,6 +36,7 @@ FigmaDownloader.md
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+/playwright.config.ts
 
 # node_modules
 node_modules/

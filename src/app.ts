@@ -57,49 +57,55 @@ function startGame(): void {
   renderCurrentView();
 }
 
+/** Adds the flipped CSS class to a card DOM element */
+function animateCardFlip(cardId: number): void {
+  document.querySelector<HTMLElement>(`[data-card-id="${cardId}"]`)
+    ?.classList.add('memory-card--flipped');
+}
+
+/** Handles matched card pair: marks DOM elements and transitions to result view if game over */
+function handleMatchResult(matchedIds: number[]): void {
+  setTimeout(() => {
+    matchedIds.forEach(id =>
+      document.querySelector(`[data-card-id="${id}"]`)?.classList.add('memory-card--matched')
+    );
+    if (getState().view === 'game-over') {
+      setView('game');
+      renderCurrentView();
+      setTimeout(() => {
+        setView(getState().winner !== 'draw' ? 'winner' : 'game-over');
+        renderCurrentView();
+      }, 800);
+    } else {
+      renderCurrentView();
+    }
+  }, FLIP_DURATION_MS);
+}
+
+/** Handles a non-matching card pair: unflips cards after a delay */
+function handleNoMatchResult(noMatchIds: number[]): void {
+  isProcessing = true;
+  setTimeout(() => {
+    noMatchIds.forEach(id =>
+      document.querySelector(`[data-card-id="${id}"]`)?.classList.remove('memory-card--flipped')
+    );
+    setTimeout(() => {
+      processNoMatch();
+      isProcessing = false;
+      renderCurrentView();
+    }, FLIP_DURATION_MS);
+  }, 1000);
+}
+
 /** Handles card flip with no-match delay */
 function handleFlip(cardId: number): void {
   if (isProcessing) return;
-
-  const prevFlippedIds = getState().flippedCards.map(c => c.id);
+  const prevFlippedIds = getState().flippedCards.map(card => card.id);
   const result = processFlip(cardId);
   if (result === 'blocked') return;
-
-  // Animate by toggling class on the existing DOM element so CSS transition fires
-  document.querySelector<HTMLElement>(`[data-card-id="${cardId}"]`)
-    ?.classList.add('memory-card--flipped');
-
-  if (result === 'match') {
-    const matchedIds = [...prevFlippedIds, cardId];
-    setTimeout(() => {
-      matchedIds.forEach(id =>
-        document.querySelector(`[data-card-id="${id}"]`)?.classList.add('memory-card--matched')
-      );
-      if (getState().view === 'game-over') {
-        setView('game');
-        renderCurrentView();
-        setTimeout(() => {
-          setView(getState().winner !== 'draw' ? 'winner' : 'game-over');
-          renderCurrentView();
-        }, 800);
-      } else {
-        renderCurrentView();
-      }
-    }, FLIP_DURATION_MS);
-  } else if (result === 'no-match') {
-    isProcessing = true;
-    const noMatchIds = [...prevFlippedIds, cardId];
-    setTimeout(() => {
-      noMatchIds.forEach(id =>
-        document.querySelector(`[data-card-id="${id}"]`)?.classList.remove('memory-card--flipped')
-      );
-      setTimeout(() => {
-        processNoMatch();
-        isProcessing = false;
-        renderCurrentView();
-      }, FLIP_DURATION_MS);
-    }, 1000);
-  }
+  animateCardFlip(cardId);
+  if (result === 'match') handleMatchResult([...prevFlippedIds, cardId]);
+  else if (result === 'no-match') handleNoMatchResult([...prevFlippedIds, cardId]);
 }
 
 /** Global click handler via event delegation */

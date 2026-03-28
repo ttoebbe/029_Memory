@@ -29,7 +29,7 @@
 }
 
 .exit-dialog {
-  background-color: #ffffff;
+  background-color: var(--color-dialog-bg);
   border-radius: var(--radius-card);
   padding: functions.px-to-rem(40) functions.px-to-rem(48);
   max-width: functions.px-to-rem(480);
@@ -43,7 +43,7 @@
     font-size: functions.px-to-rem(24);
     font-weight: 700;
     text-align: center;
-    color: #303131;
+    color: var(--color-text-dark);
   }
 
   &__actions {
