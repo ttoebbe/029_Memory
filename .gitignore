@@ -14,9 +14,10 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Editor and system files
-#.vscode/
+.vscode/
 .DS_Store
 Thumbs.db
+
 
 # Env and secrets
 .env*
@@ -42,7 +43,9 @@ FigmaDownloader.md
 node_modules/
 
 # Misc
+.DA/
 AGENTS.md
+CLAUDE.md
 claude.md
 helpdesk/
 .github/
