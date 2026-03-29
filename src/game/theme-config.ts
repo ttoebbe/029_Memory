@@ -114,7 +114,7 @@ const THEMES: Record<ThemeId, Theme> = {
       scoreIconBlue: `${T4}/player-blue.svg`,
       scoreIconOrange: `${T4}/player-orange.svg`,
       scoreIconClass: 'score-bar__score-icon',
-      currentPlayerIconBlue: `${T4}/player-blue.svg`,
+      currentPlayerIconBlue: `${T4}/current-player-blue.svg`,
       currentPlayerIconOrange: `${T4}/player-orange.svg`,
       currentPlayerIconClass: 'score-bar__score-icon',
       exitBtnSrc: `${T4_ICONS}/exit-game-button.svg`,
