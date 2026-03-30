@@ -124,8 +124,11 @@ test.describe('Result – Home button hover', () => {
   for (const theme of ['theme-2', 'theme-4']) {
     test(`${theme}: Home-Button hover wechselt SVG`, async ({ page }) => {
       await reachGameOver(page, theme);
+      await page.locator('.result__action-btn').first().dispatchEvent('mouseout');
+      await page.waitForTimeout(100);
       const defaultSrc = await getImgSrc(page, '.result__action-btn');
       const hoverSrc = await hoverAndWaitSrcChange(page, '.result__action-btn');
+      expect(defaultSrc).not.toContain('hover');
       expect(hoverSrc).not.toBe(defaultSrc);
       expect(hoverSrc).toContain('hover');
     });
