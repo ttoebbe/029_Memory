@@ -2,6 +2,10 @@
 @use '../abstract/mixin' as mixin;
 
 .memory-card {
+  border: none;
+  background: none;
+  padding: 0;
+  width: 100%;
   perspective: functions.px-to-rem(600);
   cursor: pointer;
   aspect-ratio: 1;

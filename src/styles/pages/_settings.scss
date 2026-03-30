@@ -23,6 +23,12 @@
 }
 
 .settings {
+  &__left {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
   &__title {
     font-size: functions.px-to-rem(40);
     font-weight: 800;
@@ -43,10 +49,14 @@
   }
 
   &__group {
+    border: 0;
+    margin-inline: 0;
+    padding: 0;
     margin-top: functions.px-to-rem(32);
   }
 
   &__group-title {
+    padding: 0;
     display: flex;
     align-items: center;
     gap: functions.px-to-rem(8);
