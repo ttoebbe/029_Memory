@@ -6,53 +6,45 @@ node_modules/
 /build/
 /.parcel-cache/
 
-
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Editor and system files
+# Environment & secrets
+.env*
+
+# Editor
 .vscode/
+
+# OS
 .DS_Store
 Thumbs.db
 
-
-# Env and secrets
-.env*
-
-# Figma Downloader Config (contains API token)
-figma-assets.config.js
-figma-downloader.js
-FigmaDownloader.md
-
-
-
-# Claude Code local settings (may contain tokens)
-.claude/settings.local.json
-
 # Playwright
+playwright.config.ts
 /test-results/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-/playwright.config.ts
+.playwright-mcp/
 
-# node_modules
-node_modules/
+# Claude Code
+.claude/
+.claude/settings.local.json
 
-# Misc
+# Figma tooling
+figma-assets.config.js
+figma-downloader.js
+FigmaDownloader.md
+
+# Project-internal (not for repo)
+.DA/
 .codex/
+.github/
+.helpdesk/
+helpdesk/
 AGENTS.md
 CLAUDE.md
 claude.md
-helpdesk/
-.github/
-.claude/
-.playwright-mcp/
-.helpdesk/
-.DA/
-.vscode/
-
-
