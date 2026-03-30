@@ -35,7 +35,7 @@ export function renderGameOverView(): string {
       <p class="result__subtitle">Final score</p>
       ${renderScoresHtml(players.blue.score, players.orange.score, uiAssets)}
       <button class="result__action-btn" data-action="go-home" aria-label="Back to start">
-        <img src="${uiAssets.homeBtnSrc}" alt="Home">
+        <img src="${uiAssets.homeBtnSrc}"${uiAssets.homeBtnHoverSrc ? ` data-hover-src="${uiAssets.homeBtnHoverSrc}"` : ''} alt="Home">
       </button>
     </section>`;
 }
@@ -74,7 +74,7 @@ export function renderWinnerView(): string {
       <h1 class="result__title result__title--winner ${winnerClass}">${label}</h1>
       <img class="${uiAssets.winnerDecorationClass}" src="${decorationSrc}" alt="" aria-hidden="true">
       <button class="result__action-btn" data-action="go-home" aria-label="Back to start">
-        <img src="${uiAssets.homeBtnSrc}" alt="Home">
+        <img src="${uiAssets.homeBtnSrc}"${uiAssets.homeBtnHoverSrc ? ` data-hover-src="${uiAssets.homeBtnHoverSrc}"` : ''} alt="Home">
       </button>
     </section>`;
 }

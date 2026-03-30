@@ -101,7 +101,7 @@ function renderSettingsRight(settings: GameSettings): string {
           <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
           <span>Board size</span>
           <button class="settings__start-btn" data-action="start-game">
-            <img src="${SETTINGS_SVG}/small%20button.svg" alt="Start">
+            <img src="${SETTINGS_SVG}/small%20button.svg" data-hover-src="${SETTINGS_SVG}/btn-small-hover.svg" alt="Start">
           </button>
         </div>
       </div>`;

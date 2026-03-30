@@ -62,7 +62,7 @@ function renderScoreBar(): string {
       </div>
       ${renderCurrentPlayerIndicator(uiAssets.currentPlayerIconClass, currentIconSrc, settings.currentPlayer)}
       <button class="score-bar__exit-btn" data-action="show-exit-dialog" aria-label="Exit game">
-        <img src="${uiAssets.exitBtnSrc}" alt="Exit game">
+        <img src="${uiAssets.exitBtnSrc}"${uiAssets.exitBtnHoverSrc ? ` data-hover-src="${uiAssets.exitBtnHoverSrc}"` : ''} alt="Exit game">
       </button>
     </header>`;
 }
@@ -76,10 +76,10 @@ function renderExitDialogContent(uiAssets: ThemeUiAssets): string {
         </p>
         <div class="exit-dialog__actions">
           <button class="exit-dialog__btn" data-action="dismiss-exit-dialog" aria-label="Back to game">
-            <img src="${uiAssets.popupBackToGameBtnSrc}" alt="Back to game">
+            <img src="${uiAssets.popupBackToGameBtnSrc}"${uiAssets.popupBackToGameBtnHoverSrc ? ` data-hover-src="${uiAssets.popupBackToGameBtnHoverSrc}"` : ''} alt="Back to game">
           </button>
           <button class="exit-dialog__btn" data-action="exit-game" aria-label="Exit game">
-            <img src="${uiAssets.popupConfirmExitBtnSrc}" alt="Exit game">
+            <img src="${uiAssets.popupConfirmExitBtnSrc}"${uiAssets.popupConfirmExitBtnHoverSrc ? ` data-hover-src="${uiAssets.popupConfirmExitBtnHoverSrc}"` : ''} alt="Exit game">
           </button>
         </div>
       </div>`;

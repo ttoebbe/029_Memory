@@ -51,10 +51,14 @@ export interface ThemeUiAssets {
   currentPlayerIconOrange: string;
   currentPlayerIconClass: string;
   exitBtnSrc: string;
+  exitBtnHoverSrc?: string;
   popupBackToGameBtnSrc: string;
+  popupBackToGameBtnHoverSrc?: string;
   popupConfirmExitBtnSrc: string;
+  popupConfirmExitBtnHoverSrc?: string;
   gameOverTitleSrc: string;
   homeBtnSrc: string;
+  homeBtnHoverSrc?: string;
   winnerDecorationBlue: string;
   winnerDecorationOrange: string;
   winnerDecorationClass: string;

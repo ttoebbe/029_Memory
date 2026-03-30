@@ -108,6 +108,36 @@ function handleFlip(cardId: number): void {
   else if (result === 'no-match') handleNoMatchResult([...prevFlippedIds, cardId]);
 }
 
+/** Returns the hoverable img inside the button nearest to event.target */
+function getHoverableImg(target: EventTarget | null): HTMLImageElement | null {
+  const btn = (target as HTMLElement)?.closest('button');
+  return btn?.querySelector<HTMLImageElement>('[data-hover-src]') ?? null;
+}
+
+/** Returns true when the related element is outside the button */
+function isLeavingButton(btn: HTMLElement, related: EventTarget | null): boolean {
+  return !(related instanceof Node) || !btn.contains(related);
+}
+
+/** Swaps button image to its hover variant on mouse enter */
+function handleButtonMouseOver(event: MouseEvent): void {
+  const btn = (event.target as HTMLElement).closest('button');
+  if (!btn || !isLeavingButton(btn, event.relatedTarget)) return;
+  const img = getHoverableImg(btn);
+  if (!img?.dataset['hoverSrc'] || img.src.includes('hover')) return;
+  img.dataset['defaultSrc'] = img.src;
+  img.src = img.dataset['hoverSrc'];
+}
+
+/** Restores button image to default on mouse leave */
+function handleButtonMouseOut(event: MouseEvent): void {
+  const btn = (event.target as HTMLElement).closest('button');
+  if (!btn || !isLeavingButton(btn, event.relatedTarget)) return;
+  const img = getHoverableImg(btn);
+  if (!img?.dataset['defaultSrc']) return;
+  img.src = img.dataset['defaultSrc'];
+}
+
 /** Global click handler via event delegation */
 function handleClick(event: Event): void {
   const target = (event.target as HTMLElement).closest<HTMLElement>('[data-action]');
@@ -143,5 +173,7 @@ function handleSettingsChange(event: Event): void {
 export function initApp(): void {
   document.addEventListener('click', handleClick);
   document.addEventListener('change', handleSettingsChange);
+  document.addEventListener('mouseover', handleButtonMouseOver as EventListener);
+  document.addEventListener('mouseout', handleButtonMouseOut as EventListener);
   renderCurrentView();
 }
