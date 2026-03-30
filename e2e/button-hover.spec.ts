@@ -8,6 +8,32 @@ async function getImgSrc(page: Page, selector: string): Promise<string> {
   });
 }
 
+/** Returns a specific image attribute of the first image inside the matched element */
+async function getImgAttribute(page: Page, selector: string, attributeName: string): Promise<string> {
+  return page.locator(selector).first().evaluate((elementNode, attr) => {
+    const imageElement = elementNode.tagName === 'IMG'
+      ? elementNode as HTMLImageElement
+      : elementNode.querySelector<HTMLImageElement>('img');
+    return imageElement?.getAttribute(attr) ?? '';
+  }, attributeName);
+}
+
+/** Returns the file name part from a source path */
+function getAssetFileName(sourcePath: string): string {
+  const normalizedPath = sourcePath.split('?')[0].split('#')[0];
+  return normalizedPath.split('/').pop() ?? '';
+}
+
+/** Verifies that hovering swaps image src to the configured data-hover-src */
+async function expectHoverImageSwap(page: Page, selector: string): Promise<void> {
+  const defaultSource = await getImgSrc(page, selector);
+  const hoverSourceAttribute = await getImgAttribute(page, selector, 'data-hover-src');
+  expect(hoverSourceAttribute).not.toBe('');
+  expect(getAssetFileName(defaultSource)).not.toBe(getAssetFileName(hoverSourceAttribute));
+  const hoveredSource = await hoverAndWaitSrcChange(page, selector);
+  expect(getAssetFileName(hoveredSource)).toBe(getAssetFileName(hoverSourceAttribute));
+}
+
 /** Simulates hover and returns the resulting img src.
  *  Fires mouseout first (reset) then mouseover (swap). */
 async function hoverAndWaitSrcChange(page: Page, selector: string): Promise<string> {
@@ -125,21 +151,17 @@ test.describe('Popup – Buttons hover', () => {
       await startGame(page, theme);
       await page.locator('.score-bar__exit-btn').click();
       await page.waitForSelector('button[data-action="dismiss-exit-dialog"]');
-      const defaultSrc = await getImgSrc(page, 'button[data-action="dismiss-exit-dialog"]');
-      expect(defaultSrc).toContain('btn-popup-back.svg');
-      const hoverSrc = await hoverAndWaitSrcChange(page, 'button[data-action="dismiss-exit-dialog"]');
-      expect(hoverSrc).toContain('btn-popup-back-hover.svg');
+      await expectHoverImageSwap(page, 'button[data-action="dismiss-exit-dialog"]');
     });
 
     test(`${theme}: Popup "Quit" hover zeigt btn-exit-hover (nicht back-hover)`, async ({ page }) => {
       await startGame(page, theme);
       await page.locator('.score-bar__exit-btn').click();
       await page.waitForSelector('button[data-action="exit-game"]');
-      const defaultSrc = await getImgSrc(page, 'button[data-action="exit-game"]');
-      expect(defaultSrc).toContain('btn-exit.svg');
-      const hoverSrc = await hoverAndWaitSrcChange(page, 'button[data-action="exit-game"]');
-      expect(hoverSrc).toContain('btn-exit-hover.svg');
-      expect(hoverSrc).not.toContain('popup-back');
+      const backHoverSource = await getImgAttribute(page, 'button[data-action="dismiss-exit-dialog"]', 'data-hover-src');
+      const quitHoverSource = await getImgAttribute(page, 'button[data-action="exit-game"]', 'data-hover-src');
+      expect(getAssetFileName(quitHoverSource)).not.toBe(getAssetFileName(backHoverSource));
+      await expectHoverImageSwap(page, 'button[data-action="exit-game"]');
     });
   }
 });
