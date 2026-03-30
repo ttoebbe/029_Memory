@@ -176,3 +176,36 @@ test.describe('Result – Home button hover', () => {
     });
   }
 });
+
+test.describe('Endscreen flow', () => {
+  test('Nach letztem Match wird zuerst Game-Over angezeigt', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await finishCurrentGame(page);
+    await expect(page.locator('[data-view="game-over"]')).toBeVisible();
+    await expect(page.locator('[data-view="game"]')).toHaveCount(0);
+  });
+
+  test('Bei Gewinner wechselt Game-Over nach 3 Sekunden zu Winner', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await finishCurrentGame(page);
+    await expect(page.locator('[data-view="game-over"]')).toBeVisible();
+    await page.waitForSelector('[data-view="winner"]', { timeout: 4500 });
+    await expect(page.locator('[data-view="winner"]')).toBeVisible();
+  });
+
+  test('Back to start führt von Game-Over zu Settings', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await finishCurrentGame(page);
+    await expect(page.locator('[data-view="game-over"]')).toBeVisible();
+    await page.locator('[data-view="game-over"] .result__action-btn').click();
+    await expect(page.locator('[data-view="settings"]')).toBeVisible();
+  });
+
+  test('Back to start führt von Winner zu Settings', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await finishCurrentGame(page);
+    await page.waitForSelector('[data-view="winner"]', { timeout: 4500 });
+    await page.locator('[data-view="winner"] .result__action-btn').click();
+    await expect(page.locator('[data-view="settings"]')).toBeVisible();
+  });
+});

@@ -1,4 +1,4 @@
-import { getState, setView, updateSettings, resetGame, resetAll } from './game/game-state';
+import { getState, setView, updateSettings, resetGame } from './game/game-state';
 import { buildCards } from './game/board-builder';
 import { processFlip, processNoMatch } from './game/card-logic';
 import { renderHomeView } from './views/home-view';
@@ -9,6 +9,7 @@ import type { ThemeId, PlayerId, BoardSize, ViewName } from './types/game.types'
 
 const ROOT_ID = 'app';
 const FLIP_DURATION_MS = 500;
+const RESULT_TRANSITION_DELAY_MS = 3000;
 let isProcessing = false;
 
 /** Returns the root element */
@@ -63,22 +64,26 @@ function animateCardFlip(cardId: number): void {
     ?.classList.add('memory-card--flipped');
 }
 
+/** Renders game-over first and transitions to winner after delay for non-draw outcomes */
+function handleGameOverTransition(): void {
+  renderCurrentView();
+  if (getState().winner === 'draw') return;
+  setTimeout(() => {
+    if (getState().view !== 'game-over') return;
+    setView('winner');
+    renderCurrentView();
+  }, RESULT_TRANSITION_DELAY_MS);
+}
+
 /** Handles matched card pair: marks DOM elements and transitions to result view if game over */
 function handleMatchResult(matchedIds: number[]): void {
   setTimeout(() => {
-    matchedIds.forEach(id =>
-      document.querySelector(`[data-card-id="${id}"]`)?.classList.add('memory-card--matched')
-    );
-    if (getState().view === 'game-over') {
-      setView('game');
-      renderCurrentView();
-      setTimeout(() => {
-        setView(getState().winner !== 'draw' ? 'winner' : 'game-over');
-        renderCurrentView();
-      }, 800);
-    } else {
-      renderCurrentView();
-    }
+    matchedIds.forEach((cardId) => {
+      document.querySelector(`[data-card-id="${cardId}"]`)
+        ?.classList.add('memory-card--matched');
+    });
+    if (getState().view !== 'game-over') return renderCurrentView();
+    handleGameOverTransition();
   }, FLIP_DURATION_MS);
 }
 
@@ -149,7 +154,7 @@ function handleClick(event: Event): void {
   else if (action === 'show-exit-dialog') { getRoot().insertAdjacentHTML('beforeend', renderExitDialog()); }
   else if (action === 'dismiss-exit-dialog') { document.querySelector('.exit-dialog-overlay')?.remove(); }
   else if (action === 'exit-game') { resetGame([]); setView('settings'); renderCurrentView(); }
-  else if (action === 'go-home') { resetAll(); renderCurrentView(); }
+  else if (action === 'go-home') { resetGame([]); setView('settings'); renderCurrentView(); }
   else if (action === 'flip-card') {
     const cardId = Number(target.dataset['cardId']);
     handleFlip(cardId);
