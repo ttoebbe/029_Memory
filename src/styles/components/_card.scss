@@ -4,7 +4,6 @@
 .memory-card {
   perspective: functions.px-to-rem(600);
   cursor: pointer;
-  aspect-ratio: 1;
 
   &__inner {
     position: relative;
@@ -46,7 +45,7 @@
 
   &__front {
     transform: rotateY(180deg);
-    background-color: #ffffff;
+    background-color: var(--color-card-front);
 
     img {
       width: 70%;

@@ -8,7 +8,7 @@ export type PlayerId = 'blue' | 'orange';
 export type BoardSize = 16 | 24 | 36;
 
 /** Available theme identifiers */
-export type ThemeId = 'theme-1' | 'theme-2';
+export type ThemeId = 'theme-1' | 'theme-2' | 'theme-4';
 
 /** A single memory card */
 export interface Card {
@@ -42,6 +42,25 @@ export interface GameState {
   winner: PlayerId | 'draw' | null;
 }
 
+/** SVG asset paths and CSS classes used across views, per theme */
+export interface ThemeUiAssets {
+  scoreIconBlue: string;
+  scoreIconOrange: string;
+  scoreIconClass: string;
+  currentPlayerIconBlue: string;
+  currentPlayerIconOrange: string;
+  currentPlayerIconClass: string;
+  exitBtnSrc: string;
+  popupBackToGameBtnSrc: string;
+  popupConfirmExitBtnSrc: string;
+  gameOverTitleSrc: string;
+  homeBtnSrc: string;
+  winnerDecorationBlue: string;
+  winnerDecorationOrange: string;
+  winnerDecorationClass: string;
+  confettiSrc: string | null;
+}
+
 /** Theme definition */
 export interface Theme {
   id: ThemeId;
@@ -49,4 +68,6 @@ export interface Theme {
   cardBackClass: string;
   cardImages: string[];
   backCardImage: string;
+  settingsPreviewSrc: string;
+  uiAssets: ThemeUiAssets;
 }

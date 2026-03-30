@@ -1,0 +1,16 @@
+// Foods theme – applied when <body class="theme-4">
+body.theme-4 {
+  --color-bg: #faf4ef;
+  --color-text: #2d1a06;
+  --color-accent: #f5872a;
+  --color-card-back: #f5872a;
+  --color-header-bg: #f5ede0;
+  --color-btn-ghost-border: rgba(245, 135, 42, 0.6);
+  --color-text-dark: #2d1a06;
+  --color-footer-bg: #f0e5d6;
+  --color-bg-game-over: #f5872a;
+}
+
+body.theme-4 [data-view="game-over"] .result__subtitle {
+  color: #ffffff;
+}

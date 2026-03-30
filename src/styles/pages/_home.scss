@@ -7,7 +7,9 @@
   align-items: center;
   min-height: 100vh;
   overflow: hidden;
+  background-color: var(--color-bg);
 }
+
 
 .home {
   &__content {
@@ -67,6 +69,10 @@
     display: block;
     height: functions.px-to-rem(60);
     width: auto;
+
+    @include mixin.respond(sm) {
+      height: functions.px-to-rem(48);
+    }
   }
 
   &:hover {

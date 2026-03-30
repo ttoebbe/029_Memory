@@ -2,29 +2,46 @@
 @use '../abstract/mixin' as mixin;
 
 .game-board {
+  flex: 1;
+  min-height: 0;
   display: grid;
   gap: functions.px-to-rem(8);
   width: 100%;
   max-width: functions.px-to-rem(700);
   margin: 0 auto;
 
+  @include mixin.respond(sm) {
+    gap: functions.px-to-rem(6);
+    max-width: 100%;
+  }
+
   // 4x4 = 16 cards
   &--16 {
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr);
   }
 
-  // 4x6 = 24 cards
+  // 6x4 = 24 cards
   &--24 {
     grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(4, 1fr);
 
     @include mixin.respond(md) {
       grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(6, 1fr);
     }
   }
 
   // 6x6 = 36 cards
   &--36 {
     grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
     max-width: functions.px-to-rem(800);
+
+    @include mixin.respond(sm) {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(9, 1fr);
+      max-width: 100%;
+    }
   }
 }

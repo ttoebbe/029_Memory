@@ -14,9 +14,10 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Editor and system files
-#.vscode/
+.vscode/
 .DS_Store
 Thumbs.db
+
 
 # Env and secrets
 .env*
@@ -31,9 +32,20 @@ FigmaDownloader.md
 # Claude Code local settings (may contain tokens)
 .claude/settings.local.json
 
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright.config.ts
+
+# node_modules
+node_modules/
+
 # Misc
 .codex/
 AGENTS.md
+CLAUDE.md
 claude.md
 helpdesk/
 .github/

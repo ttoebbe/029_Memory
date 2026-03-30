@@ -1,15 +1,46 @@
-import { getAllThemes } from '../game/theme-config';
+import { getAllThemes, getTheme } from '../game/theme-config';
 import { getState } from '../game/game-state';
-import type { ThemeId, PlayerId, BoardSize } from '../types/game.types';
+import type { ThemeId, PlayerId, BoardSize, GameSettings } from '../types/game.types';
 
-/** Renders a single radio option */
-function renderRadio(name: string, value: string, label: string, checked: boolean): string {
+const SETTINGS_SVG = '/assets/designs/settings';
+
+/** Returns the settings preview image path for a given theme */
+function resolvePreviewImage(themeId: ThemeId): string {
+  return getTheme(themeId).settingsPreviewSrc;
+}
+
+/** Renders the HTML template for a single radio option */
+function renderRadioTemplate(
+  name: string, value: string, label: string,
+  checked: boolean, radioIcon: string, selectLine: string
+): string {
   return `
-    <label class="settings__option">
-      <input type="radio" name="${name}" value="${value}" ${checked ? 'checked' : ''}>
+    <label class="settings__option ${checked ? 'settings__option--active' : ''}">
+      <input type="radio" name="${name}" value="${value}" ${checked ? 'checked' : ''} class="settings__radio-input">
+      <img src="${radioIcon}" class="settings__radio-icon" alt="">
       <span class="settings__option-label">${label}</span>
-    </label>
-  `;
+      ${selectLine}
+    </label>`;
+}
+
+/** Renders a single radio option with custom SVG icon */
+function renderRadio(name: string, value: string, label: string, checked: boolean): string {
+  const radioIcon = checked
+    ? `${SETTINGS_SVG}/mode_standby.svg`
+    : `${SETTINGS_SVG}/fiber_manual_record.svg`;
+  const selectLine = checked
+    ? `<img src="${SETTINGS_SVG}/select-line.svg" class="settings__select-line" alt="">`
+    : '';
+  return renderRadioTemplate(name, value, label, checked, radioIcon, selectLine);
+}
+
+/** Renders a group heading with an icon */
+function renderGroupTitle(iconFile: string, title: string): string {
+  return `
+    <h2 class="settings__group-title">
+      <img src="${SETTINGS_SVG}/${iconFile}" class="settings__group-icon" alt="">
+      ${title}
+    </h2>`;
 }
 
 /** Renders the theme selection list */
@@ -35,37 +66,53 @@ function renderBoardSizeOptions(currentSize: BoardSize): string {
     .join('');
 }
 
+/** Renders the left column of the settings screen */
+function renderSettingsLeft(settings: GameSettings): string {
+  return `
+      <div class="settings__left">
+        <h1 class="settings__title">Settings</h1>
+        <img src="${SETTINGS_SVG}/line_settings.svg" class="settings__title-line" alt="">
+        <div class="settings__group">
+          ${renderGroupTitle('palette.svg', 'Game themes')}
+          ${renderThemeOptions(settings.themeId)}
+        </div>
+        <div class="settings__group">
+          ${renderGroupTitle('chess_pawn.svg', 'Choose player')}
+          ${renderPlayerOptions(settings.currentPlayer)}
+        </div>
+        <div class="settings__group">
+          ${renderGroupTitle('style.svg', 'Board size')}
+          ${renderBoardSizeOptions(settings.boardSize)}
+        </div>
+      </div>`;
+}
+
+/** Renders the right column of the settings screen */
+function renderSettingsRight(settings: GameSettings): string {
+  return `
+      <div class="settings__right">
+        <div class="settings__preview">
+          <img src="${resolvePreviewImage(settings.themeId)}" id="settings-preview-img" alt="Theme preview">
+        </div>
+        <div class="settings__footer">
+          <span>Game theme</span>
+          <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
+          <span>Player</span>
+          <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
+          <span>Board size</span>
+          <button class="settings__start-btn" data-action="start-game">
+            <img src="${SETTINGS_SVG}/small%20button.svg" alt="Start">
+          </button>
+        </div>
+      </div>`;
+}
+
 /** Renders the settings screen HTML */
 export function renderSettingsView(): string {
   const { settings } = getState();
   return `
     <section class="view view--settings" data-view="settings">
-      <div class="settings__left">
-        <h1 class="settings__title">Settings</h1>
-        <div class="settings__group">
-          <h2 class="settings__group-title">Game themes</h2>
-          ${renderThemeOptions(settings.themeId)}
-        </div>
-        <div class="settings__group">
-          <h2 class="settings__group-title">Choose player</h2>
-          ${renderPlayerOptions(settings.currentPlayer)}
-        </div>
-        <div class="settings__group">
-          <h2 class="settings__group-title">Board size</h2>
-          ${renderBoardSizeOptions(settings.boardSize)}
-        </div>
-      </div>
-      <div class="settings__right">
-        <div class="settings__preview" id="settings-preview"></div>
-        <div class="settings__footer">
-          <span>Game theme</span><span class="settings__separator">/</span>
-          <span>Player</span><span class="settings__separator">/</span>
-          <span>Board size</span>
-          <button class="btn btn--primary" data-action="start-game">
-            &#9654; Start
-          </button>
-        </div>
-      </div>
-    </section>
-  `;
+      ${renderSettingsLeft(settings)}
+      ${renderSettingsRight(settings)}
+    </section>`;
 }

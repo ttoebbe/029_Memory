@@ -11,7 +11,7 @@ import {
 } from './game-state';
 
 /** Returns true if a card can be flipped right now */
-export function canFlipCard(cardId: number): boolean {
+function canFlipCard(cardId: number): boolean {
   const { cards, flippedCards } = getState();
   if (flippedCards.length >= 2) return false;
   const card = cards.find((card) => card.id === cardId);

@@ -14,17 +14,27 @@ Wählbare Themes, Boardgrößen und Spielerfarben sorgen für maximale Konfiguri
 | User Story | Beschreibung |
 |---|---|
 | Homescreen | Animierter Controller-Icon, Start-Button zur Einstellungsseite |
-| Spieleinstellungen | 2 Spielerfarben, 3 Boardgrößen (4×4 / 4×6 / 8×8), min. 2 Themes |
-| Theme-Auswahl | Min. 2 Layouts – ändern Farbschema **und** Kartenmotive |
+| Spieleinstellungen | 2 Spielerfarben, 3 Boardgrößen (4×4 / 4×6 / 8×8), 3 Themes |
+| Theme-Auswahl | 3 Layouts – ändern Farbschema **und** Kartenmotive |
 | Spielfeld | Karten-Flip-Animation, Punktestand, aktiver Spieler, Exit-Button |
 | Spielende | Game-Over-Screen, Gewinner-Anzeige, Zurück zur Startseite |
+
+---
+
+## Themes
+
+| Theme-Klasse | Name | Kartenmotive |
+|---|---|---|
+| `theme-1` | Code Vibes | Tech-Icons (React, Vue, Angular, Node, Python …) |
+| `theme-2` | Gaming | Gaming-Icons |
+| `theme-4` | Foods | Lebensmittel-Illustrationen (Pizza, Sushi, Donuts …) |
 
 ---
 
 ## Tech Stack
 
 - **TypeScript** – strikte Typisierung, keine `any`-Typen, max. 14 Zeilen pro Funktion
-- **SCSS** – 7-1-Pattern (abstract / base / components / pages / themes)
+- **SCSS** – 7-1-Pattern (abstract / base / components / layout / pages / themes)
 - **Vite** – Build-Tool & Dev-Server
 - **HTML5** – semantisch, barrierefrei (kein Div-Soup)
 
@@ -36,84 +46,60 @@ Wählbare Themes, Boardgrößen und Spielerfarben sorgen für maximale Konfiguri
 029_Memory/
 │
 ├── src/                             # TypeScript-Quellcode
-│   ├── models/                      # Datenmodelle (Klassen)
-│   │   ├── card.ts                  # Card: id, theme, imageUrl, isFlipped, isMatched
-│   │   ├── player.ts                # Player: name, color, score
-│   │   ├── game-settings.ts         # GameSettings: boardSize, theme, players[]
-│   │   └── game-state.ts            # GameState: currentPlayer, moves, status
+│   ├── app.ts                       # View-Router & Event-Delegation
+│   ├── main.ts                      # Einstiegspunkt (importiert styles & app)
 │   │
-│   ├── services/                    # Business-Logik
-│   │   ├── card-service.ts          # Karten generieren & mischen (Fisher-Yates)
-│   │   ├── game-service.ts          # Spielablauf, Match-Prüfung, Gewinner ermitteln
-│   │   └── score-service.ts         # Punkte verwalten
+│   ├── game/                        # Spiellogik & State
+│   │   ├── board-builder.ts         # Karten generieren & mischen (Fisher-Yates)
+│   │   ├── card-logic.ts            # Flip-Logik & Match-Prüfung
+│   │   ├── game-state.ts            # Globales State-Management
+│   │   └── theme-config.ts          # Theme-Definitionen (3 Themes)
 │   │
-│   ├── views/                       # DOM-Rendering (UI-Layer)
-│   │   ├── home-view.ts             # Startseite rendern
-│   │   ├── settings-view.ts         # Einstellungsseite rendern
-│   │   ├── board-view.ts            # Spielfeld aufbauen & Flip-Animation
-│   │   ├── game-over-view.ts        # Game-Over-Screen
-│   │   └── winner-view.ts           # Gewinner-Screen mit Confetti
-│   │
-│   ├── utils/                       # Pure Hilfsfunktionen
-│   │   ├── dom-utils.ts             # createElement- und querySelector-Wrapper
-│   │   └── shuffle-utils.ts         # Fisher-Yates-Shuffle
+│   ├── views/                       # UI-Rendering (reine Funktionen → HTML-Strings)
+│   │   ├── home-view.ts             # Startseite
+│   │   ├── settings-view.ts         # Einstellungsseite
+│   │   ├── game-view.ts             # Spielfeld & Score-Bar
+│   │   └── result-view.ts           # Game-Over & Gewinner-Screen
 │   │
 │   ├── types/
-│   │   └── types.ts                 # Interfaces, Enums, Type-Aliases
+│   │   └── game.types.ts            # Interfaces, Union Types, Type-Aliases
 │   │
-│   └── app.ts                       # Einstiegspunkt & View-Router
+│   └── styles/                      # SCSS (7-1-Pattern)
+│       ├── main.scss                # Einstiegspunkt (@use-Imports)
+│       ├── abstract/
+│       │   ├── _variables.scss      # CSS Custom Properties, Breakpoints
+│       │   ├── _mixin.scss          # flex-center, fade-in, respond()
+│       │   └── _functions.scss      # px-to-rem()
+│       ├── base/
+│       │   ├── _reset.scss          # CSS-Reset
+│       │   └── _typography.scss     # Schriften & Text-Utilities
+│       ├── components/
+│       │   ├── _button.scss         # Button-Varianten
+│       │   ├── _card.scss           # Flip-Animation, Vorder-/Rückseite
+│       │   ├── _score-bar.scss      # Punkte- & Spieler-Anzeige
+│       │   └── _main.scss           # @forward aller Komponenten
+│       ├── layout/
+│       │   └── _game-board.scss     # CSS-Grid (4×4 / 4×6 / 8×8)
+│       ├── pages/
+│       │   ├── _home.scss
+│       │   ├── _settings.scss
+│       │   ├── _game.scss
+│       │   └── _result.scss
+│       └── themes/
+│           ├── _theme-1.scss        # Code Vibes – Farbschema
+│           ├── _theme-2.scss        # Gaming – Farbschema
+│           └── _theme-4.scss        # Foods – Farbschema
 │
-├── assets/                          # Statische Assets (Figma-Export)
-│   ├── icons/                       # SVG-Icons
-│   │   ├── logo.svg
-│   │   ├── logo-icon.svg
-│   │   ├── logo-text.svg
-│   │   ├── stadia-controller.svg    # Home-Button-Icon
-│   │   ├── chess-pawn.svg           # Spieler-Icon
-│   │   ├── move-item.svg            # Zug-Anzeige
-│   │   ├── fiber-manual-record.svg  # Farb-Indikator
-│   │   ├── palette.svg              # Theme-Auswahl
-│   │   ├── mode-standby.svg
-│   │   ├── smart-display.svg
-│   │   ├── coderr.svg               # Coderr-Logo
-│   │   └── label.svg
-│   │
-│   └── images/
-│       ├── cards/
-│       │   ├── back/                # card-back.png  (Kartenrückseite)
-│       │   ├── code-vibes/          # card-01.png … card-18.png
-│       │   ├── games/               # card-01.png … card-18.png
-│       │   ├── da-projects/         # card-01.png … card-18.png
-│       │   └── food/                # card-01.png … card-18.png
-│       ├── ui/
-│       │   └── confetti.png         # Gewinner-Animation
-│       └── screens/                 # Referenz-Screenshots aus Figma (JPG)
-│
-├── scss/                            # Styles (7-1-Pattern)
-│   ├── abstract/
-│   │   ├── _variables.scss          # Breakpoints, Farb-Tokens, Spacing
-│   │   ├── _mixin.scss              # flex-center, fade-in, respond()
-│   │   └── _functions.scss          # px-to-rem()
-│   ├── base/
-│   │   ├── _reset.scss              # CSS-Reset
-│   │   ├── _typography.scss         # Schriften, Text-Utilities
-│   │   └── _spacing.scss            # Spacing-Klassen
-│   ├── components/
-│   │   ├── _button.scss             # Primary, Secondary, Small, Radial
-│   │   ├── _card.scss               # Flip-Animation, Vorder-/Rückseite
-│   │   ├── _board.scss              # CSS-Grid (4×4 / 4×6 / 8×8)
-│   │   ├── _score-bar.scss          # Punkte- & Spieler-Anzeige
-│   │   ├── _popup.scss              # Match-Popup, Game-Over-Overlay
-│   │   └── _main.scss               # @forward aller Komponenten
-│   ├── pages/
-│   │   ├── _home.scss
-│   │   ├── _settings.scss
-│   │   ├── _game.scss
-│   │   └── _imprint.scss
-│   ├── themes/
-│   │   ├── _code-vibes.scss         # Farbschema Theme 1
-│   │   └── _games.scss              # Farbschema Theme 2
-│   └── main.scss                    # Einstiegspunkt (@use-Imports)
+├── public/assets/                   # Statische Assets (SVG, PNG)
+│   ├── designs/                     # Theme-spezifische UI-Grafiken
+│   │   ├── theme_1/
+│   │   ├── theme_2/
+│   │   ├── theme_4/
+│   │   └── settings/
+│   └── icons/                       # Karten-Icons nach Theme
+│       ├── icons_1/                 # Tech-Icons (Code Vibes)
+│       ├── icons_2/                 # Gaming-Icons
+│       └── icons_4/                 # Food-Icons
 │
 ├── index.html                       # HTML-Einstiegspunkt (Vite)
 ├── package.json
@@ -150,7 +136,7 @@ npm run build
 | Konstanten | `UPPER_CASE` |
 | Funktionslänge | max. 14 Zeilen |
 | Typisierung | explizit – kein `any` |
-| Kommentare | TSDoc (`/** ... */`) |
+| Kommentare | JSDoc (`/** ... */`) |
 | HTML | Semantisch, kein Div-Soup |
 
 Vollständige Vorgaben: [.helpdesk/Coding Konvention TypeScript.md](.helpdesk/Coding%20Konvention%20TypeScript.md) · [.helpdesk/Coding Convention HTML.md](.helpdesk/Coding%20Convention%20HTML.md)
@@ -159,20 +145,13 @@ Vollständige Vorgaben: [.helpdesk/Coding Konvention TypeScript.md](.helpdesk/Co
 
 ## Design
 
-Figma-Datei: `https://www.figma.com/design/teDxq4ywNg46iqiWHpHQYM/Memory`
+Referenz-Screenshots unter `.DA/design/template-screens/`:
 
-Referenz-Screenshots unter `assets/images/screens/` (lokal verfügbar):
-
-| Screen | Datei |
+| Theme | Ordner |
 |---|---|
-| Home | `screens/home.jpg` |
-| Einstellungen (Code Vibes) | `screens/settings-code-vibes.jpg` |
-| Einstellungen (Games) | `screens/settings-games.jpg` |
-| Spielfeld 4×4 | `screens/game-code-vibes-16.jpg` |
-| Spielfeld 4×6 | `screens/game-code-vibes-24.jpg` |
-| Spielfeld 8×8 | `screens/game-code-vibes-36.jpg` |
-| Game Over | `screens/game-over-01.jpg` |
-| Gewinner | `screens/winner-01.jpg` |
+| Code Vibes | `.DA/design/template-screens/theme1/` |
+| Gaming | `.DA/design/template-screens/theme2/` |
+| Foods | `.DA/design/template-screens/theme4/` |
 
 ---
 

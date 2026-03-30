@@ -3,11 +3,12 @@ import { buildCards } from './game/board-builder';
 import { processFlip, processNoMatch } from './game/card-logic';
 import { renderHomeView } from './views/home-view';
 import { renderSettingsView } from './views/settings-view';
-import { renderGameView } from './views/game-view';
+import { renderGameView, renderExitDialog } from './views/game-view';
 import { renderGameOverView, renderWinnerView } from './views/result-view';
 import type { ThemeId, PlayerId, BoardSize, ViewName } from './types/game.types';
 
 const ROOT_ID = 'app';
+const FLIP_DURATION_MS = 500;
 let isProcessing = false;
 
 /** Returns the root element */
@@ -56,25 +57,55 @@ function startGame(): void {
   renderCurrentView();
 }
 
-/** Handles card flip with no-match delay */
-function handleFlip(cardId: number): void {
-  if (isProcessing) return;
-  const result = processFlip(cardId);
-  renderCurrentView();
-  if (result === 'no-match') {
-    isProcessing = true;
+/** Adds the flipped CSS class to a card DOM element */
+function animateCardFlip(cardId: number): void {
+  document.querySelector<HTMLElement>(`[data-card-id="${cardId}"]`)
+    ?.classList.add('memory-card--flipped');
+}
+
+/** Handles matched card pair: marks DOM elements and transitions to result view if game over */
+function handleMatchResult(matchedIds: number[]): void {
+  setTimeout(() => {
+    matchedIds.forEach(id =>
+      document.querySelector(`[data-card-id="${id}"]`)?.classList.add('memory-card--matched')
+    );
+    if (getState().view === 'game-over') {
+      setView('game');
+      renderCurrentView();
+      setTimeout(() => {
+        setView(getState().winner !== 'draw' ? 'winner' : 'game-over');
+        renderCurrentView();
+      }, 800);
+    } else {
+      renderCurrentView();
+    }
+  }, FLIP_DURATION_MS);
+}
+
+/** Handles a non-matching card pair: unflips cards after a delay */
+function handleNoMatchResult(noMatchIds: number[]): void {
+  isProcessing = true;
+  setTimeout(() => {
+    noMatchIds.forEach(id =>
+      document.querySelector(`[data-card-id="${id}"]`)?.classList.remove('memory-card--flipped')
+    );
     setTimeout(() => {
       processNoMatch();
       isProcessing = false;
       renderCurrentView();
-    }, 1000);
-  }
-  if (result === 'match' && getState().view === 'game-over') {
-    setTimeout(() => {
-      if (getState().winner !== 'draw') setView('winner');
-      renderCurrentView();
-    }, 800);
-  }
+    }, FLIP_DURATION_MS);
+  }, 1000);
+}
+
+/** Handles card flip with no-match delay */
+function handleFlip(cardId: number): void {
+  if (isProcessing) return;
+  const prevFlippedIds = getState().flippedCards.map(card => card.id);
+  const result = processFlip(cardId);
+  if (result === 'blocked') return;
+  animateCardFlip(cardId);
+  if (result === 'match') handleMatchResult([...prevFlippedIds, cardId]);
+  else if (result === 'no-match') handleNoMatchResult([...prevFlippedIds, cardId]);
 }
 
 /** Global click handler via event delegation */
@@ -85,7 +116,9 @@ function handleClick(event: Event): void {
 
   if (action === 'go-to-settings') { setView('settings'); renderCurrentView(); }
   else if (action === 'start-game') startGame();
-  else if (action === 'exit-game') { setView('home'); renderCurrentView(); }
+  else if (action === 'show-exit-dialog') { getRoot().insertAdjacentHTML('beforeend', renderExitDialog()); }
+  else if (action === 'dismiss-exit-dialog') { document.querySelector('.exit-dialog-overlay')?.remove(); }
+  else if (action === 'exit-game') { setView('game-over'); renderCurrentView(); }
   else if (action === 'go-home') { resetAll(); renderCurrentView(); }
   else if (action === 'flip-card') {
     const cardId = Number(target.dataset['cardId']);
@@ -93,8 +126,22 @@ function handleClick(event: Event): void {
   }
 }
 
+/** Syncs a single changed radio to state and re-renders the settings view */
+function handleSettingsChange(event: Event): void {
+  const target = event.target as HTMLInputElement;
+  if (!target.name) return;
+
+  if (target.name === 'theme') updateSettings({ themeId: target.value as ThemeId });
+  else if (target.name === 'player') updateSettings({ currentPlayer: target.value as PlayerId });
+  else if (target.name === 'board-size') updateSettings({ boardSize: Number(target.value) as BoardSize });
+  else return;
+
+  renderCurrentView();
+}
+
 /** Bootstraps the app */
 export function initApp(): void {
   document.addEventListener('click', handleClick);
+  document.addEventListener('change', handleSettingsChange);
   renderCurrentView();
 }

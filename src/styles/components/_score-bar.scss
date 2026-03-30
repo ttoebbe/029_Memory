@@ -2,6 +2,7 @@
 @use '../abstract/mixin' as mixin;
 
 .score-bar {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,13 +35,53 @@
     gap: functions.px-to-rem(8);
   }
 
-  &__dot {
-    display: inline-block;
-    width: functions.px-to-rem(12);
-    height: functions.px-to-rem(12);
-    border-radius: 50%;
+  &__label-icon {
+    width: functions.px-to-rem(24);
+    height: functions.px-to-rem(20);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
 
-    &--blue { background-color: var(--color-player-blue); }
-    &--orange { background-color: var(--color-player-orange); }
+  // Theme-2 pawn icons used as score indicators (portrait aspect ratio)
+  &__score-icon {
+    height: functions.px-to-rem(24);
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  &__pawn {
+    height: functions.px-to-rem(36);
+    width: auto;
+    object-fit: contain;
+  }
+
+  &__exit-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+
+    img {
+      height: functions.px-to-rem(57);
+      width: auto;
+    }
+
+    @include mixin.respond(md) {
+      img { height: functions.px-to-rem(48); }
+    }
+
+    @include mixin.respond(sm) {
+      img { height: functions.px-to-rem(40); }
+    }
+
+    &:hover { opacity: 0.85; }
+    &:active { transform: scale(0.97); }
+    &:focus-visible {
+      outline: 2px solid var(--color-card-back);
+      outline-offset: 3px;
+    }
   }
 }
