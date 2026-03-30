@@ -42,7 +42,6 @@ FigmaDownloader.md
 # Project-internal (not for repo)
 .DA/
 .codex/
-.github/
 .helpdesk/
 helpdesk/
 AGENTS.md
