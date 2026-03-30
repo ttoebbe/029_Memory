@@ -1,5 +1,5 @@
 # Dependencies
-
+node_modules/
 
 # Build artifacts
 /dist/
@@ -32,11 +32,15 @@ FigmaDownloader.md
 .claude/settings.local.json
 
 # Misc
+.codex/
 AGENTS.md
 claude.md
 helpdesk/
 .github/
 .claude/
 .playwright-mcp/
+.helpdesk/
+.DA/
+.vscode/
 
 
