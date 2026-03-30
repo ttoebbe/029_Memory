@@ -23,7 +23,6 @@ pnpm-debug.log*
 Thumbs.db
 
 # Playwright
-playwright.config.ts
 /test-results/
 /playwright-report/
 /blob-report/
