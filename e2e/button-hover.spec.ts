@@ -44,6 +44,38 @@ async function startGame(page: Page, themeValue: string): Promise<void> {
   await page.waitForSelector('.score-bar__exit-btn');
 }
 
+/** Returns all visible game card ids from the current board */
+async function getGameCardIds(page: Page): Promise<number[]> {
+  return page.locator('.memory-card').evaluateAll((cardElements) =>
+    cardElements.map((cardElement) => Number(cardElement.getAttribute('data-card-id')))
+  );
+}
+
+/** Returns the front image source key for a specific card id */
+async function getCardFrontSource(page: Page, cardId: number): Promise<string> {
+  const selector = `[data-card-id="${cardId}"] .memory-card__front img`;
+  return page.locator(selector).getAttribute('src').then((value) => value ?? '');
+}
+
+/** Plays through all matching pairs to reach a real game-over screen */
+async function finishCurrentGame(page: Page): Promise<void> {
+  const cardIds = await getGameCardIds(page);
+  const cardsByImage = new Map<string, number[]>();
+  for (const cardId of cardIds) {
+    const imageSource = await getCardFrontSource(page, cardId);
+    const group = cardsByImage.get(imageSource) ?? [];
+    group.push(cardId);
+    cardsByImage.set(imageSource, group);
+  }
+  for (const pair of cardsByImage.values()) {
+    if (pair.length < 2) continue;
+    await page.locator(`[data-card-id="${pair[0]}"]`).click();
+    await page.locator(`[data-card-id="${pair[1]}"]`).click();
+    await page.waitForTimeout(900);
+  }
+  await page.waitForSelector('.result__action-btn');
+}
+
 test.describe('Home – Play button hover', () => {
   test('SVG wechselt auf Hover', async ({ page }) => {
     await page.goto('/');
@@ -112,12 +144,22 @@ test.describe('Popup – Buttons hover', () => {
   }
 });
 
+test.describe('Exit flow', () => {
+  test('Bestätigter Exit führt zu Settings statt Game-Over', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await page.locator('.score-bar__exit-btn').click();
+    const confirmExitButton = page.locator('.exit-dialog button[data-action="exit-game"]');
+    await expect(confirmExitButton).toBeVisible();
+    await confirmExitButton.dispatchEvent('click');
+    await expect(page.locator('[data-view="settings"]')).toBeVisible();
+    await expect(page.locator('[data-view="game-over"]')).toHaveCount(0);
+  });
+});
+
 test.describe('Result – Home button hover', () => {
   async function reachGameOver(page: Page, theme: string): Promise<void> {
     await startGame(page, theme);
-    await page.locator('.score-bar__exit-btn').click();
-    await page.waitForSelector('button[data-action="exit-game"]');
-    await page.locator('button[data-action="exit-game"]').click();
+    await finishCurrentGame(page);
     await page.waitForSelector('.result__action-btn');
   }
 
