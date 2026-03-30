@@ -1,3 +1,5 @@
+@use '../abstract/functions' as functions;
+
 *,
 *::before,
 *::after {
@@ -29,6 +31,11 @@ button {
   font-family: inherit;
   border: none;
   background: none;
+}
+
+#app {
+  max-width: functions.px-to-rem(1440);
+  margin: 0 auto;
 }
 
 ul,

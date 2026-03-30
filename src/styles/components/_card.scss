@@ -4,6 +4,8 @@
 .memory-card {
   perspective: functions.px-to-rem(600);
   cursor: pointer;
+  aspect-ratio: 1;
+  align-self: center;
 
   &__inner {
     position: relative;
