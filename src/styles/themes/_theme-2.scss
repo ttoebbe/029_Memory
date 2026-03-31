@@ -8,4 +8,8 @@ body.theme-2 {
   --color-btn-ghost-border: #c0134e;
   --radius-card: 1rem;
   --exit-btn-aspect-ratio: 195 / 54;
+
+  .memory-card__back {
+    background: linear-gradient(135deg, #a00f3f 0%, #e0185a 60%, #f04080 100%);
+  }
 }

@@ -87,7 +87,7 @@ const THEMES: Record<ThemeId, Theme> = {
     name: 'Gaming theme',
     cardBackClass: 'card-back--theme-2',
     cardImages: THEME_2_IMAGES,
-    backCardImage: '/assets/icons/icons_2/back-card.svg',
+    backCardImage: '',
     settingsPreviewSrc: '/assets/designs/settings/settings_pic_theme2.svg',
     uiAssets: {
       scoreIconBlue: `${T2}/point_chess_pawn_blue.svg`,

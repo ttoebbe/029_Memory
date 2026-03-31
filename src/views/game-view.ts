@@ -4,10 +4,11 @@ import type { Card, ThemeUiAssets } from '../types/game.types';
 
 /** Renders the inner face/back structure of a memory card */
 function renderCardInner(card: Card, backImage: string): string {
+  const backImageHtml = backImage ? `<img src="${backImage}" alt="" aria-hidden="true">` : '';
   return `
       <div class="memory-card__inner">
         <div class="memory-card__back">
-          <img src="${backImage}" alt="" aria-hidden="true">
+          ${backImageHtml}
         </div>
         <div class="memory-card__front">
           <img src="${card.imagePath}" alt="Card image">
