@@ -131,6 +131,8 @@ function handleButtonMouseOver(event: MouseEvent): void {
   const img = getHoverableImg(btn);
   if (!img?.dataset['hoverSrc'] || img.src.includes('hover')) return;
   img.dataset['defaultSrc'] = img.src;
+  img.style.width = `${img.offsetWidth}px`;
+  img.style.height = `${img.offsetHeight}px`;
   img.src = img.dataset['hoverSrc'];
 }
 
@@ -140,6 +142,8 @@ function handleButtonMouseOut(event: MouseEvent): void {
   if (!btn || !isLeavingButton(btn, event.relatedTarget)) return;
   const img = getHoverableImg(btn);
   if (!img?.dataset['defaultSrc']) return;
+  img.style.width = '';
+  img.style.height = '';
   img.src = img.dataset['defaultSrc'];
 }
 
