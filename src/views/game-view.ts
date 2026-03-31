@@ -20,13 +20,13 @@ function renderCard(card: Card, backImage: string): string {
   const flippedClass = card.isFlipped || card.isMatched ? 'memory-card--flipped' : '';
   const matchedClass = card.isMatched ? 'memory-card--matched' : '';
   return `
-    <div class="memory-card ${flippedClass} ${matchedClass}"
-         data-card-id="${card.id}"
-         data-action="flip-card"
-         role="button"
-         aria-label="Memory card">
+    <button class="memory-card ${flippedClass} ${matchedClass}"
+            data-card-id="${card.id}"
+            data-action="flip-card"
+            aria-label="Memory card"
+            type="button">
       ${renderCardInner(card, backImage)}
-    </div>`;
+    </button>`;
 }
 
 /** Renders a single player score span */
@@ -70,7 +70,7 @@ function renderScoreBar(): string {
 /** Renders the inner content of the exit dialog */
 function renderExitDialogContent(uiAssets: ThemeUiAssets): string {
   return `
-      <div class="exit-dialog" role="dialog" aria-modal="true" aria-labelledby="exit-dialog-title">
+      <dialog class="exit-dialog" open aria-labelledby="exit-dialog-title">
         <p id="exit-dialog-title" class="exit-dialog__title">
           Are you sure you want to quit the game?
         </p>
@@ -82,7 +82,7 @@ function renderExitDialogContent(uiAssets: ThemeUiAssets): string {
             <img src="${uiAssets.popupConfirmExitBtnSrc}"${uiAssets.popupConfirmExitBtnHoverSrc ? ` data-hover-src="${uiAssets.popupConfirmExitBtnHoverSrc}"` : ''} alt="Exit game">
           </button>
         </div>
-      </div>`;
+      </dialog>`;
 }
 
 /** Renders the exit confirmation dialog overlay */
@@ -103,8 +103,8 @@ export function renderGameView(): string {
   return `
     <section class="view view--game" data-view="game" data-theme="${settings.themeId}">
       ${renderScoreBar()}
-      <div class="game-board ${gridClass}" id="game-board">
+      <article class="game-board ${gridClass}" id="game-board" aria-label="Memory board">
         ${cardHtml}
-      </div>
+      </article>
     </section>`;
 }

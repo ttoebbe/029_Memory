@@ -37,10 +37,10 @@ function renderRadio(name: string, value: string, label: string, checked: boolea
 /** Renders a group heading with an icon */
 function renderGroupTitle(iconFile: string, title: string): string {
   return `
-    <h2 class="settings__group-title">
+    <legend class="settings__group-title">
       <img src="${SETTINGS_SVG}/${iconFile}" class="settings__group-icon" alt="">
       ${title}
-    </h2>`;
+    </legend>`;
 }
 
 /** Renders the theme selection list */
@@ -69,32 +69,32 @@ function renderBoardSizeOptions(currentSize: BoardSize): string {
 /** Renders the left column of the settings screen */
 function renderSettingsLeft(settings: GameSettings): string {
   return `
-      <div class="settings__left">
+      <aside class="settings__left" aria-label="Game settings">
         <h1 class="settings__title">Settings</h1>
         <img src="${SETTINGS_SVG}/line_settings.svg" class="settings__title-line" alt="">
-        <div class="settings__group">
+        <fieldset class="settings__group">
           ${renderGroupTitle('palette.svg', 'Game themes')}
           ${renderThemeOptions(settings.themeId)}
-        </div>
-        <div class="settings__group">
+        </fieldset>
+        <fieldset class="settings__group">
           ${renderGroupTitle('chess_pawn.svg', 'Choose player')}
           ${renderPlayerOptions(settings.currentPlayer)}
-        </div>
-        <div class="settings__group">
+        </fieldset>
+        <fieldset class="settings__group">
           ${renderGroupTitle('style.svg', 'Board size')}
           ${renderBoardSizeOptions(settings.boardSize)}
-        </div>
-      </div>`;
+        </fieldset>
+      </aside>`;
 }
 
 /** Renders the right column of the settings screen */
 function renderSettingsRight(settings: GameSettings): string {
   return `
-      <div class="settings__right">
-        <div class="settings__preview">
+      <section class="settings__right" aria-label="Preview and start">
+        <figure class="settings__preview">
           <img src="${resolvePreviewImage(settings.themeId)}" id="settings-preview-img" alt="Theme preview">
-        </div>
-        <div class="settings__footer">
+        </figure>
+        <footer class="settings__footer">
           <span>Game theme</span>
           <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
           <span>Player</span>
@@ -103,8 +103,8 @@ function renderSettingsRight(settings: GameSettings): string {
           <button class="settings__start-btn" data-action="start-game">
             <img src="${SETTINGS_SVG}/small%20button.svg" data-hover-src="${SETTINGS_SVG}/btn-small-hover.svg" alt="Start">
           </button>
-        </div>
-      </div>`;
+        </footer>
+      </section>`;
 }
 
 /** Renders the settings screen HTML */

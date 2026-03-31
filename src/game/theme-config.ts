@@ -55,7 +55,7 @@ const T4_ICONS = '/assets/icons/icons_4';
 const THEMES: Record<ThemeId, Theme> = {
   'theme-1': {
     id: 'theme-1',
-    name: 'Code Vibes',
+    name: 'Code Vibes theme',
     cardBackClass: 'card-back--theme-1',
     cardImages: THEME_1_IMAGES,
     backCardImage: '/assets/icons/icons_1/back-card.svg',
@@ -71,7 +71,7 @@ const THEMES: Record<ThemeId, Theme> = {
       exitBtnHoverSrc: `${T1}/btn-exit-hover.svg`,
       popupBackToGameBtnSrc: `${T1}/btn-popup-back.svg`,
       popupBackToGameBtnHoverSrc: `${T1}/btn-popup-back-hover.svg`,
-      popupConfirmExitBtnSrc: `${T1}/btn-exit.svg`,
+      popupConfirmExitBtnSrc: `${T1}/exit-game-button.svg`,
       popupConfirmExitBtnHoverSrc: `${T1}/btn-exit-hover.svg`,
       gameOverTitleSrc: `${T1}/text_game_over.svg`,
       homeBtnSrc: `${T1}/back-to-start-button.svg`,
@@ -83,7 +83,7 @@ const THEMES: Record<ThemeId, Theme> = {
   },
   'theme-2': {
     id: 'theme-2',
-    name: 'Gaming',
+    name: 'Gaming theme',
     cardBackClass: 'card-back--theme-2',
     cardImages: THEME_2_IMAGES,
     backCardImage: '/assets/icons/icons_2/back-card.svg',
@@ -99,7 +99,7 @@ const THEMES: Record<ThemeId, Theme> = {
       exitBtnHoverSrc: `${T2}/btn-exit-hover.svg`,
       popupBackToGameBtnSrc: `${T2}/btn-popup-back.svg`,
       popupBackToGameBtnHoverSrc: `${T2}/btn-popup-back-hover.svg`,
-      popupConfirmExitBtnSrc: `${T2}/btn-exit.svg`,
+      popupConfirmExitBtnSrc: `${T2}/btn_yes_quite_game.svg`,
       popupConfirmExitBtnHoverSrc: `${T2}/btn-exit-hover.svg`,
       gameOverTitleSrc: `${T2}/GAME_OVER_text.svg`,
       homeBtnSrc: `${T2}/btn-exit.svg`,
@@ -112,7 +112,7 @@ const THEMES: Record<ThemeId, Theme> = {
   },
   'theme-4': {
     id: 'theme-4',
-    name: 'Foods',
+    name: 'Foods theme',
     cardBackClass: 'card-back--theme-4',
     cardImages: THEME_4_IMAGES,
     backCardImage: `${T4_ICONS}/back-card.svg`,

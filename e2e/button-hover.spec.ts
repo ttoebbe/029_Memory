@@ -8,6 +8,32 @@ async function getImgSrc(page: Page, selector: string): Promise<string> {
   });
 }
 
+/** Returns a specific image attribute of the first image inside the matched element */
+async function getImgAttribute(page: Page, selector: string, attributeName: string): Promise<string> {
+  return page.locator(selector).first().evaluate((elementNode, attr) => {
+    const imageElement = elementNode.tagName === 'IMG'
+      ? elementNode as HTMLImageElement
+      : elementNode.querySelector<HTMLImageElement>('img');
+    return imageElement?.getAttribute(attr) ?? '';
+  }, attributeName);
+}
+
+/** Returns the file name part from a source path */
+function getAssetFileName(sourcePath: string): string {
+  const normalizedPath = sourcePath.split('?')[0].split('#')[0];
+  return normalizedPath.split('/').pop() ?? '';
+}
+
+/** Verifies that hovering swaps image src to the configured data-hover-src */
+async function expectHoverImageSwap(page: Page, selector: string): Promise<void> {
+  const defaultSource = await getImgSrc(page, selector);
+  const hoverSourceAttribute = await getImgAttribute(page, selector, 'data-hover-src');
+  expect(hoverSourceAttribute).not.toBe('');
+  expect(getAssetFileName(defaultSource)).not.toBe(getAssetFileName(hoverSourceAttribute));
+  const hoveredSource = await hoverAndWaitSrcChange(page, selector);
+  expect(getAssetFileName(hoveredSource)).toBe(getAssetFileName(hoverSourceAttribute));
+}
+
 /** Simulates hover and returns the resulting img src.
  *  Fires mouseout first (reset) then mouseover (swap). */
 async function hoverAndWaitSrcChange(page: Page, selector: string): Promise<string> {
@@ -42,6 +68,38 @@ async function startGame(page: Page, themeValue: string): Promise<void> {
   await selectRadio(page, 'board-size', '16');
   await page.locator('.settings__start-btn').click();
   await page.waitForSelector('.score-bar__exit-btn');
+}
+
+/** Returns all visible game card ids from the current board */
+async function getGameCardIds(page: Page): Promise<number[]> {
+  return page.locator('.memory-card').evaluateAll((cardElements) =>
+    cardElements.map((cardElement) => Number(cardElement.getAttribute('data-card-id')))
+  );
+}
+
+/** Returns the front image source key for a specific card id */
+async function getCardFrontSource(page: Page, cardId: number): Promise<string> {
+  const selector = `[data-card-id="${cardId}"] .memory-card__front img`;
+  return page.locator(selector).getAttribute('src').then((value) => value ?? '');
+}
+
+/** Plays through all matching pairs to reach a real game-over screen */
+async function finishCurrentGame(page: Page): Promise<void> {
+  const cardIds = await getGameCardIds(page);
+  const cardsByImage = new Map<string, number[]>();
+  for (const cardId of cardIds) {
+    const imageSource = await getCardFrontSource(page, cardId);
+    const group = cardsByImage.get(imageSource) ?? [];
+    group.push(cardId);
+    cardsByImage.set(imageSource, group);
+  }
+  for (const pair of cardsByImage.values()) {
+    if (pair.length < 2) continue;
+    await page.locator(`[data-card-id="${pair[0]}"]`).click();
+    await page.locator(`[data-card-id="${pair[1]}"]`).click();
+    await page.waitForTimeout(900);
+  }
+  await page.waitForSelector('.result__action-btn');
 }
 
 test.describe('Home – Play button hover', () => {
@@ -93,31 +151,37 @@ test.describe('Popup – Buttons hover', () => {
       await startGame(page, theme);
       await page.locator('.score-bar__exit-btn').click();
       await page.waitForSelector('button[data-action="dismiss-exit-dialog"]');
-      const defaultSrc = await getImgSrc(page, 'button[data-action="dismiss-exit-dialog"]');
-      expect(defaultSrc).toContain('btn-popup-back.svg');
-      const hoverSrc = await hoverAndWaitSrcChange(page, 'button[data-action="dismiss-exit-dialog"]');
-      expect(hoverSrc).toContain('btn-popup-back-hover.svg');
+      await expectHoverImageSwap(page, 'button[data-action="dismiss-exit-dialog"]');
     });
 
     test(`${theme}: Popup "Quit" hover zeigt btn-exit-hover (nicht back-hover)`, async ({ page }) => {
       await startGame(page, theme);
       await page.locator('.score-bar__exit-btn').click();
       await page.waitForSelector('button[data-action="exit-game"]');
-      const defaultSrc = await getImgSrc(page, 'button[data-action="exit-game"]');
-      expect(defaultSrc).toContain('btn-exit.svg');
-      const hoverSrc = await hoverAndWaitSrcChange(page, 'button[data-action="exit-game"]');
-      expect(hoverSrc).toContain('btn-exit-hover.svg');
-      expect(hoverSrc).not.toContain('popup-back');
+      const backHoverSource = await getImgAttribute(page, 'button[data-action="dismiss-exit-dialog"]', 'data-hover-src');
+      const quitHoverSource = await getImgAttribute(page, 'button[data-action="exit-game"]', 'data-hover-src');
+      expect(getAssetFileName(quitHoverSource)).not.toBe(getAssetFileName(backHoverSource));
+      await expectHoverImageSwap(page, 'button[data-action="exit-game"]');
     });
   }
+});
+
+test.describe('Exit flow', () => {
+  test('Bestätigter Exit führt zu Settings statt Game-Over', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await page.locator('.score-bar__exit-btn').click();
+    const confirmExitButton = page.locator('.exit-dialog button[data-action="exit-game"]');
+    await expect(confirmExitButton).toBeVisible();
+    await confirmExitButton.dispatchEvent('click');
+    await expect(page.locator('[data-view="settings"]')).toBeVisible();
+    await expect(page.locator('[data-view="game-over"]')).toHaveCount(0);
+  });
 });
 
 test.describe('Result – Home button hover', () => {
   async function reachGameOver(page: Page, theme: string): Promise<void> {
     await startGame(page, theme);
-    await page.locator('.score-bar__exit-btn').click();
-    await page.waitForSelector('button[data-action="exit-game"]');
-    await page.locator('button[data-action="exit-game"]').click();
+    await finishCurrentGame(page);
     await page.waitForSelector('.result__action-btn');
   }
 
@@ -133,4 +197,37 @@ test.describe('Result – Home button hover', () => {
       expect(hoverSrc).toContain('hover');
     });
   }
+});
+
+test.describe('Endscreen flow', () => {
+  test('Nach letztem Match wird zuerst Game-Over angezeigt', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await finishCurrentGame(page);
+    await expect(page.locator('[data-view="game-over"]')).toBeVisible();
+    await expect(page.locator('[data-view="game"]')).toHaveCount(0);
+  });
+
+  test('Bei Gewinner wechselt Game-Over nach 3 Sekunden zu Winner', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await finishCurrentGame(page);
+    await expect(page.locator('[data-view="game-over"]')).toBeVisible();
+    await page.waitForSelector('[data-view="winner"]', { timeout: 4500 });
+    await expect(page.locator('[data-view="winner"]')).toBeVisible();
+  });
+
+  test('Back to start führt von Game-Over zu Settings', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await finishCurrentGame(page);
+    await expect(page.locator('[data-view="game-over"]')).toBeVisible();
+    await page.locator('[data-view="game-over"] .result__action-btn').click();
+    await expect(page.locator('[data-view="settings"]')).toBeVisible();
+  });
+
+  test('Back to start führt von Winner zu Settings', async ({ page }) => {
+    await startGame(page, 'theme-1');
+    await finishCurrentGame(page);
+    await page.waitForSelector('[data-view="winner"]', { timeout: 4500 });
+    await page.locator('[data-view="winner"] .result__action-btn').click();
+    await expect(page.locator('[data-view="settings"]')).toBeVisible();
+  });
 });

@@ -29,6 +29,9 @@
 }
 
 .exit-dialog {
+  border: none;
+  position: static;
+  margin: 0;
   background-color: var(--color-dialog-bg);
   border-radius: var(--radius-card);
   padding: functions.px-to-rem(40) functions.px-to-rem(48);
@@ -38,6 +41,10 @@
   flex-direction: column;
   align-items: center;
   gap: functions.px-to-rem(32);
+
+  &::backdrop {
+    display: none;
+  }
 
   &__title {
     font-size: functions.px-to-rem(24);
