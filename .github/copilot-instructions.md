@@ -13,6 +13,7 @@ Im Ordner "assets" sind die Bilder und Icons, welche benötigt werden. Wenn etwa
 ## Allgemeine Anweisungen
 - Antwortsprache: Deutsch.
 - Antworten kurz und präzise halten.
+- Alles soll fließend lesbar formuliert sein.
 - Keine zusätzlichen Features oder Informationen ergänzen, die nicht explizit angefragt wurden.
 - Offensichtliche Fehler, fehlende Teile oder Unklarheiten höflich ansprechen und nachfragen.
 - Immer die bestehende Codestruktur des Projekts einhalten und konsistent erweitern. Auf Fehlendes oder Unklares hinweisen.
@@ -22,9 +23,12 @@ Im Ordner "assets" sind die Bilder und Icons, welche benötigt werden. Wenn etwa
 - Bezeichner und Kommentare auf Englisch.
 - UI-Texte auf Englisch.
 - Klare, aussagekräftige Namen. Keine kryptischen Abkürzungen.
+- Keine Abkürzungen in Bezeichnern verwenden; lieber längere, eindeutig aussagekräftige Namen.
   - **Verboten:** Einzelbuchstaben wie `i`, `j`, `c`, `e`, `t`, `s`, `a`, `b` — auch als Loop-Index oder Callback-Parameter.
   - **DOM-Referenzen:** Nicht mit Suffix `El` oder `Elem` abkürzen, sondern den Zweck beschreiben (z. B. `themeInput`, `rootElement`).
   - **Ausnahme:** `_` für explizit ignorierte Parameter (z. B. `(_, index)`).
+- Immer semantisches HTML verwenden, z. B. `main`, `article`, `header`, `nav`, `button` statt reiner `div`-Container.
+- Innerhalb von `section` keine bedeutungslosen Wrapper-`div`-Elemente ohne semantischen oder technischen Zweck verwenden.
 - Funktionsnamen beginnen mit einem Verb (z. B. `getUserById`, `renderCard`).
 - Eine Leerzeile zwischen allen Funktionen.
 - HTML-Templates in separate Funktionen auslagern und als Template-Strings zurückgeben.
