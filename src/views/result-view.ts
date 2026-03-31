@@ -23,20 +23,22 @@ function renderScoresHtml(
 
 /** Renders the game-over screen with final scores */
 export function renderGameOverView(): string {
-  const { players, settings } = getState();
+  const { players, settings, winner } = getState();
   const { uiAssets } = getTheme(settings.themeId);
   const confetti = uiAssets.confettiSrc
     ? `<img class="result__confetti" src="${uiAssets.confettiSrc}" alt="" aria-hidden="true">`
     : '';
+  const homeBtn = winner === 'draw' ? `
+      <button class="result__action-btn" data-action="go-home" aria-label="Back to start">
+        <img src="${uiAssets.homeBtnSrc}"${uiAssets.homeBtnHoverSrc ? ` data-hover-src="${uiAssets.homeBtnHoverSrc}"` : ''} alt="Home">
+      </button>` : '';
   return `
     <section class="view view--result" data-view="game-over">
       ${confetti}
       <img class="result__game-over-title" src="${uiAssets.gameOverTitleSrc}" alt="Game over">
       <p class="result__subtitle">Final score</p>
       ${renderScoresHtml(players.blue.score, players.orange.score, uiAssets)}
-      <button class="result__action-btn" data-action="go-home" aria-label="Back to start">
-        <img src="${uiAssets.homeBtnSrc}"${uiAssets.homeBtnHoverSrc ? ` data-hover-src="${uiAssets.homeBtnHoverSrc}"` : ''} alt="Home">
-      </button>
+      ${homeBtn}
     </section>`;
 }
 
