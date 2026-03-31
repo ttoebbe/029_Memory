@@ -67,6 +67,8 @@
     img {
       height: functions.px-to-rem(57);
       width: auto;
+      aspect-ratio: var(--exit-btn-aspect-ratio);
+      object-fit: contain;
     }
 
     @include mixin.respond(md) {

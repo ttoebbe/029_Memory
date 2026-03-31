@@ -67,9 +67,9 @@
     cursor: pointer;
 
     img {
-      height: auto;
-      max-height: functions.px-to-rem(60);
+      height: functions.px-to-rem(60);
       width: auto;
+      object-fit: contain;
       display: block;
     }
 
