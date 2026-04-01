@@ -36,7 +36,6 @@
   gap: functions.px-to-rem(16);
   padding: functions.px-to-rem(32);
   position: relative;
-  overflow-x: hidden;
   animation: game-over-bg-in 0.4s ease forwards;
 }
 
@@ -94,8 +93,8 @@
     }
   }
 
-  &__winner--blue { color: var(--color-player-blue); }
-  &__winner--orange { color: var(--color-player-orange); }
+  &__winner--player-1 { color: var(--color-player-blue); }
+  &__winner--player-2 { color: var(--color-player-orange); }
 
   &__subtitle {
     font-size: functions.px-to-rem(18);
@@ -124,8 +123,8 @@
     align-items: center;
     gap: functions.px-to-rem(8);
 
-    &--blue { color: var(--color-player-blue); }
-    &--orange { color: var(--color-player-orange); }
+    &--player-1 { color: var(--color-player-blue); }
+    &--player-2 { color: var(--color-player-orange); }
   }
 
   &__score-display {

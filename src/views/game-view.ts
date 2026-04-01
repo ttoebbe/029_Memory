@@ -4,11 +4,11 @@ import type { Card, ThemeUiAssets } from '../types/game.types';
 
 /** Renders the inner face/back structure of a memory card */
 function renderCardInner(card: Card, backImage: string): string {
-  const backImageHtml = backImage ? `<img src="${backImage}" alt="" aria-hidden="true">` : '';
+  const backImageTemplate = backImage ? `<img src="${backImage}" alt="" aria-hidden="true">` : '';
   return `
       <div class="memory-card__inner">
         <div class="memory-card__back">
-          ${backImageHtml}
+          ${backImageTemplate}
         </div>
         <div class="memory-card__front">
           <img src="${card.imagePath}" alt="Card image">
@@ -48,6 +48,14 @@ function renderCurrentPlayerIndicator(iconClass: string, iconSrc: string, curren
       </p>`;
 }
 
+/** Renders the exit button in the score bar */
+function renderExitButton(uiAssets: ThemeUiAssets): string {
+  return `
+      <button class="score-bar__exit-btn" data-action="show-exit-dialog" aria-label="Exit game">
+        <img src="${uiAssets.exitButtonSource}"${uiAssets.exitButtonHoverSource ? ` data-hover-src="${uiAssets.exitButtonHoverSource}"` : ''} alt="Exit game">
+      </button>`;
+}
+
 /** Renders the score header */
 function renderScoreBar(): string {
   const { players, settings } = getState();
@@ -62,9 +70,7 @@ function renderScoreBar(): string {
         ${renderPlayerScore('orange', players.orange.score, uiAssets.scoreIconClass, uiAssets.scoreIconOrange)}
       </div>
       ${renderCurrentPlayerIndicator(uiAssets.currentPlayerIconClass, currentIconSrc, settings.currentPlayer)}
-      <button class="score-bar__exit-btn" data-action="show-exit-dialog" aria-label="Exit game">
-        <img src="${uiAssets.exitBtnSrc}"${uiAssets.exitBtnHoverSrc ? ` data-hover-src="${uiAssets.exitBtnHoverSrc}"` : ''} alt="Exit game">
-      </button>
+      ${renderExitButton(uiAssets)}
     </header>`;
 }
 
@@ -77,10 +83,10 @@ function renderExitDialogContent(uiAssets: ThemeUiAssets): string {
         </p>
         <div class="exit-dialog__actions">
           <button class="exit-dialog__btn" data-action="dismiss-exit-dialog" aria-label="Back to game">
-            <img src="${uiAssets.popupBackToGameBtnSrc}"${uiAssets.popupBackToGameBtnHoverSrc ? ` data-hover-src="${uiAssets.popupBackToGameBtnHoverSrc}"` : ''} alt="Back to game">
+            <img src="${uiAssets.popupBackToGameButtonSource}"${uiAssets.popupBackToGameButtonHoverSource ? ` data-hover-src="${uiAssets.popupBackToGameButtonHoverSource}"` : ''} alt="Back to game">
           </button>
           <button class="exit-dialog__btn" data-action="exit-game" aria-label="Exit game">
-            <img src="${uiAssets.popupConfirmExitBtnSrc}"${uiAssets.popupConfirmExitBtnHoverSrc ? ` data-hover-src="${uiAssets.popupConfirmExitBtnHoverSrc}"` : ''} alt="Exit game">
+            <img src="${uiAssets.popupConfirmExitButtonSource}"${uiAssets.popupConfirmExitButtonHoverSource ? ` data-hover-src="${uiAssets.popupConfirmExitButtonHoverSource}"` : ''} alt="Exit game">
           </button>
         </div>
       </dialog>`;
@@ -100,12 +106,12 @@ export function renderGameView(): string {
   const { cards, settings } = getState();
   const theme = getTheme(settings.themeId);
   const gridClass = `game-board--${settings.boardSize}`;
-  const cardHtml = cards.map((card) => renderCard(card, theme.backCardImage)).join('');
+  const cardTemplate = cards.map((card) => renderCard(card, theme.backCardImage)).join('');
   return `
     <section class="view view--game" data-view="game" data-theme="${settings.themeId}">
       ${renderScoreBar()}
       <article class="game-board ${gridClass}" id="game-board" aria-label="Memory board">
-        ${cardHtml}
+        ${cardTemplate}
       </article>
     </section>`;
 }

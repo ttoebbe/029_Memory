@@ -6,7 +6,7 @@
   flex-direction: column;
   padding: functions.px-to-rem(24) functions.px-to-rem(32);
   height: 100dvh;
-  overflow: hidden;
+  max-height: 100dvh;
   box-sizing: border-box;
 
   @include mixin.respond(md) {

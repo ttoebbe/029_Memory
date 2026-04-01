@@ -207,14 +207,6 @@
       height: functions.px-to-rem(59);
       width: auto;
       object-fit: contain;
-
-      @include mixin.respond(sm) {
-        height: functions.px-to-rem(48);
-      }
-
-      @include mixin.respond(xs) {
-        height: functions.px-to-rem(44);
-      }
     }
 
     &:hover {
@@ -223,6 +215,16 @@
 
     &:active {
       transform: scale(0.97);
+    }
+  }
+
+  &__start-btn img {
+    @include mixin.respond(sm) {
+      height: functions.px-to-rem(48);
+    }
+
+    @include mixin.respond(xs) {
+      height: functions.px-to-rem(44);
     }
   }
 }

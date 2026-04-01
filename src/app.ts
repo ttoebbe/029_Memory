@@ -114,37 +114,37 @@ function handleFlip(cardId: number): void {
 }
 
 /** Returns the hoverable img inside the button nearest to event.target */
-function getHoverableImg(target: EventTarget | null): HTMLImageElement | null {
-  const btn = (target as HTMLElement)?.closest('button');
-  return btn?.querySelector<HTMLImageElement>('[data-hover-src]') ?? null;
+function getHoverableImage(target: EventTarget | null): HTMLImageElement | null {
+  const button = (target as HTMLElement)?.closest('button');
+  return button?.querySelector<HTMLImageElement>('[data-hover-src]') ?? null;
 }
 
 /** Returns true when the related element is outside the button */
-function isLeavingButton(btn: HTMLElement, related: EventTarget | null): boolean {
-  return !(related instanceof Node) || !btn.contains(related);
+function isLeavingButton(parentButton: HTMLElement, related: EventTarget | null): boolean {
+  return !(related instanceof Node) || !parentButton.contains(related);
 }
 
 /** Swaps button image to its hover variant on mouse enter */
 function handleButtonMouseOver(event: MouseEvent): void {
-  const btn = (event.target as HTMLElement).closest('button');
-  if (!btn || !isLeavingButton(btn, event.relatedTarget)) return;
-  const img = getHoverableImg(btn);
-  if (!img?.dataset['hoverSrc'] || img.src.includes('hover')) return;
-  img.dataset['defaultSrc'] = img.src;
-  img.style.width = `${img.offsetWidth}px`;
-  img.style.height = `${img.offsetHeight}px`;
-  img.src = img.dataset['hoverSrc'];
+  const button = (event.target as HTMLElement).closest('button');
+  if (!button || !isLeavingButton(button, event.relatedTarget)) return;
+  const hoverableImage = getHoverableImage(button);
+  if (!hoverableImage?.dataset['hoverSrc'] || hoverableImage.src.includes('hover')) return;
+  hoverableImage.dataset['defaultSrc'] = hoverableImage.src;
+  hoverableImage.style.width = `${hoverableImage.offsetWidth}px`;
+  hoverableImage.style.height = `${hoverableImage.offsetHeight}px`;
+  hoverableImage.src = hoverableImage.dataset['hoverSrc'];
 }
 
 /** Restores button image to default on mouse leave */
 function handleButtonMouseOut(event: MouseEvent): void {
-  const btn = (event.target as HTMLElement).closest('button');
-  if (!btn || !isLeavingButton(btn, event.relatedTarget)) return;
-  const img = getHoverableImg(btn);
-  if (!img?.dataset['defaultSrc']) return;
-  img.style.width = '';
-  img.style.height = '';
-  img.src = img.dataset['defaultSrc'];
+  const button = (event.target as HTMLElement).closest('button');
+  if (!button || !isLeavingButton(button, event.relatedTarget)) return;
+  const hoverableImage = getHoverableImage(button);
+  if (!hoverableImage?.dataset['defaultSrc']) return;
+  hoverableImage.style.width = '';
+  hoverableImage.style.height = '';
+  hoverableImage.src = hoverableImage.dataset['defaultSrc'];
 }
 
 /** Global click handler via event delegation */

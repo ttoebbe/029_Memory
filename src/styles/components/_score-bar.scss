@@ -69,14 +69,10 @@
       width: auto;
       aspect-ratio: var(--exit-btn-aspect-ratio);
       object-fit: contain;
-    }
 
-    @include mixin.respond(md) {
-      img { height: functions.px-to-rem(48); }
-    }
+      @include mixin.respond(md) { height: functions.px-to-rem(48); }
 
-    @include mixin.respond(sm) {
-      img { height: functions.px-to-rem(40); }
+      @include mixin.respond(sm) { height: functions.px-to-rem(40); }
     }
 
     &:hover { opacity: 0.85; }

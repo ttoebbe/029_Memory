@@ -66,12 +66,16 @@ function renderBoardSizeOptions(currentSize: BoardSize): string {
     .join('');
 }
 
-/** Renders the left column of the settings screen */
-function renderSettingsLeft(settings: GameSettings): string {
+/** Renders the settings header with title and decorative line */
+function renderSettingsHeader(): string {
   return `
-      <aside class="settings__left" aria-label="Game settings">
         <h1 class="settings__title">Settings</h1>
-        <img src="${SETTINGS_SVG}/line_settings.svg" class="settings__title-line" alt="">
+        <img src="${SETTINGS_SVG}/line_settings.svg" class="settings__title-line" alt="">`;
+}
+
+/** Renders the fieldset groups for theme, player and board size */
+function renderSettingsGroups(settings: GameSettings): string {
+  return `
         <fieldset class="settings__group">
           ${renderGroupTitle('palette.svg', 'Game themes')}
           ${renderThemeOptions(settings.themeId)}
@@ -83,17 +87,21 @@ function renderSettingsLeft(settings: GameSettings): string {
         <fieldset class="settings__group">
           ${renderGroupTitle('style.svg', 'Board size')}
           ${renderBoardSizeOptions(settings.boardSize)}
-        </fieldset>
+        </fieldset>`;
+}
+
+/** Renders the left column of the settings screen */
+function renderSettingsLeft(settings: GameSettings): string {
+  return `
+      <aside class="settings__left" aria-label="Game settings">
+        ${renderSettingsHeader()}
+        ${renderSettingsGroups(settings)}
       </aside>`;
 }
 
-/** Renders the right column of the settings screen */
-function renderSettingsRight(settings: GameSettings): string {
+/** Renders the settings footer with labels and start button */
+function renderSettingsFooter(): string {
   return `
-      <section class="settings__right" aria-label="Preview and start">
-        <figure class="settings__preview">
-          <img src="${resolvePreviewImage(settings.themeId)}" id="settings-preview-img" alt="Theme preview">
-        </figure>
         <footer class="settings__footer">
           <span>Game theme</span>
           <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
@@ -103,7 +111,17 @@ function renderSettingsRight(settings: GameSettings): string {
           <button class="settings__start-btn" data-action="start-game">
             <img src="${SETTINGS_SVG}/small%20button.svg" data-hover-src="${SETTINGS_SVG}/btn-small-hover.svg" alt="Start">
           </button>
-        </footer>
+        </footer>`;
+}
+
+/** Renders the right column of the settings screen */
+function renderSettingsRight(settings: GameSettings): string {
+  return `
+      <section class="settings__right" aria-label="Preview and start">
+        <figure class="settings__preview">
+          <img src="${resolvePreviewImage(settings.themeId)}" id="settings-preview-img" alt="Theme preview">
+        </figure>
+        ${renderSettingsFooter()}
       </section>`;
 }
 
