@@ -175,6 +175,7 @@
     color: var(--color-text);
 
     @include mixin.respond(sm) {
+      justify-content: center;
       padding: functions.px-to-rem(12);
       row-gap: functions.px-to-rem(10);
     }
@@ -202,6 +203,10 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+
+    @include mixin.respond(sm) {
+      margin-left: 0;
+    }
 
     img {
       height: functions.px-to-rem(59);
