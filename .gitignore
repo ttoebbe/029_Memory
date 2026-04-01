@@ -4,7 +4,6 @@ node_modules/
 # Build artifacts
 /dist/
 /build/
-/.parcel-cache/
 
 # Logs
 npm-debug.log*
@@ -15,8 +14,10 @@ pnpm-debug.log*
 # Environment & secrets
 .env*
 
-# Editor
-.vscode/
+# Editor — keep shared settings, ignore personal files
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
 
 # OS
 .DS_Store
@@ -29,9 +30,9 @@ Thumbs.db
 /playwright/.cache/
 .playwright-mcp/
 
-# Claude Code
-.claude/
-.claude/settings.local.json
+# Claude Code — keep CLAUDE.md, ignore local settings
+.claude/*
+!.claude/CLAUDE.md
 
 # Figma tooling
 figma-assets.config.js
@@ -43,6 +44,3 @@ FigmaDownloader.md
 .codex/
 .helpdesk/
 helpdesk/
-AGENTS.md
-CLAUDE.md
-claude.md
