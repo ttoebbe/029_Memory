@@ -99,16 +99,20 @@ function renderSettingsLeft(settings: GameSettings): string {
       </aside>`;
 }
 
-/** Renders the settings footer with labels and start button */
-function renderSettingsFooter(): string {
+/** Renders the settings footer with current selected values and start button */
+function renderSettingsFooter(settings: GameSettings): string {
+  const themeName = getTheme(settings.themeId).name;
+  const playerLabel = settings.currentPlayer === 'blue' ? 'Blue' : 'Orange';
+  const boardLabel = `${settings.boardSize} cards`;
+
   return `
         <footer class="settings__footer">
           <div class="settings__footer-info">
-            <span>Game theme</span>
+            <span>${themeName}</span>
             <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
-            <span>Player</span>
+            <span>${playerLabel}</span>
             <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
-            <span>Board size</span>
+            <span>${boardLabel}</span>
           </div>
           <button class="settings__start-btn" data-action="start-game">
             <img src="${SETTINGS_SVG}/small%20button.svg" data-hover-src="${SETTINGS_SVG}/btn-small-hover.svg" alt="Start">
@@ -123,7 +127,7 @@ function renderSettingsRight(settings: GameSettings): string {
         <figure class="settings__preview">
           <img src="${resolvePreviewImage(settings.themeId)}" id="settings-preview-img" alt="Theme preview">
         </figure>
-        ${renderSettingsFooter()}
+        ${renderSettingsFooter(settings)}
       </section>`;
 }
 
