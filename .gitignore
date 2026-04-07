@@ -25,9 +25,8 @@ playwright.config.ts
 /playwright/.cache/
 .playwright-mcp/
 
-# Claude Code — keep CLAUDE.md, ignore local settings
-.claude/*
-!.claude/CLAUDE.md
+# Claude Code
+.claude/
 
 # GitHub workflows & config
 .github/
