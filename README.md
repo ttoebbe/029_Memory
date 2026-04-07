@@ -31,7 +31,6 @@ Choose from 3 themes, 2 player colors and 3 board sizes.
 - **TypeScript** with strict mode
 - **SCSS** using the 7-1 pattern
 - **Vite** as build tool and dev server
-- **Playwright** for E2E testing
 
 ## Setup
 
@@ -43,9 +42,6 @@ npm run dev
 
 # Production build
 npm run build
-
-# Run E2E tests
-npm run test:e2e
 ```
 
 ## Project Structure
