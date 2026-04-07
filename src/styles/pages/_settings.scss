@@ -200,8 +200,6 @@
     display: flex;
     align-items: center;
     gap: functions.px-to-rem(8);
-    // margin-right: auto;
-
     @include mixin.respond(md) {
       margin-right: 0;
     }

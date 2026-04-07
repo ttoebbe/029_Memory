@@ -14,10 +14,8 @@ pnpm-debug.log*
 # Environment & secrets
 .env*
 
-# Editor — keep shared settings, ignore personal files
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
+# Editor
+.vscode/
 
 # OS
 .DS_Store
