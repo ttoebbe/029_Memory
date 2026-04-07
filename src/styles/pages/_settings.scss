@@ -2,14 +2,14 @@
 @use '../abstract/mixin' as mixin;
 
 .view--settings {
-  background-color: #ffffff;
-  --color-text: #303131;
+  background-color: var(--color-card-front);
+  --color-text: var(--color-text-dark);
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: start;
   gap: clamp(functions.px-to-rem(24), 4vw, functions.px-to-rem(48));
   padding: functions.px-to-rem(48) functions.px-to-rem(64);
-  min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
 
   @include mixin.respond(md) {
@@ -105,7 +105,20 @@
   }
 
   &__radio-input {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+
+    &:focus-visible + .settings__radio-icon {
+      outline: 2px solid var(--color-accent);
+      border-radius: 50%;
+    }
   }
 
   &__radio-icon {
@@ -181,9 +194,9 @@
     gap: functions.px-to-rem(8);
     padding: functions.px-to-rem(12) functions.px-to-rem(20);
     background-color: var(--color-footer-bg);
-    border-radius: 0.5rem;
+    border-radius: var(--radius-card);
     font-size: functions.px-to-rem(16);
-    font-weight: bold;
+    font-weight: 700;
     color: var(--color-text);
 
     @include mixin.respond(sm) {

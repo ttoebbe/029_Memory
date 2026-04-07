@@ -56,7 +56,6 @@ const THEMES: Record<ThemeId, Theme> = {
   'theme-1': {
     id: 'theme-1',
     name: 'Code Vibes theme',
-    cardBackClass: 'card-back--theme-1',
     cardImages: THEME_1_IMAGES,
     backCardImage: '/assets/icons/icons_1/back-card.svg',
     settingsPreviewSrc: '/assets/designs/settings/settings_pic_theme1.svg',
@@ -84,7 +83,6 @@ const THEMES: Record<ThemeId, Theme> = {
   'theme-2': {
     id: 'theme-2',
     name: 'Gaming theme',
-    cardBackClass: 'card-back--theme-2',
     cardImages: THEME_2_IMAGES,
     backCardImage: '',
     settingsPreviewSrc: '/assets/designs/settings/settings_pic_theme2.svg',
@@ -112,7 +110,6 @@ const THEMES: Record<ThemeId, Theme> = {
   'theme-4': {
     id: 'theme-4',
     name: 'Foods theme',
-    cardBackClass: 'card-back--theme-4',
     cardImages: THEME_4_IMAGES,
     backCardImage: `${THEME_4_ICONS_PATH}/back-card.svg`,
     settingsPreviewSrc: `${THEME_4_DESIGN_PATH}/Settings_theme Foods.svg`,

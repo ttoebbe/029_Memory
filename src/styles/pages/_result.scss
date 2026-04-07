@@ -32,7 +32,7 @@
 
 .view--result {
   @include mixin.flex-center;
-  min-height: 100vh;
+  min-height: 100dvh;
   gap: functions.px-to-rem(16);
   padding: functions.px-to-rem(32);
   position: relative;
@@ -127,21 +127,6 @@
     &--player-2 { color: var(--color-player-orange); }
   }
 
-  &__score-display {
-    font-size: functions.px-to-rem(32);
-    font-weight: 700;
-    color: var(--color-text);
-
-    @include mixin.respond(sm) {
-      font-size: functions.px-to-rem(24);
-    }
-  }
-
-  &__score-row {
-    display: flex;
-    align-items: center;
-    gap: functions.px-to-rem(8);
-  }
 }
 
 .result__confetti {

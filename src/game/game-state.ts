@@ -84,7 +84,3 @@ export function setWinner(winner: GameState['winner']): void {
   state.winner = winner;
 }
 
-/** Fully resets state to defaults */
-export function resetAll(): void {
-  state = structuredClone(DEFAULT_STATE);
-}

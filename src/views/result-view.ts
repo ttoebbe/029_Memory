@@ -32,7 +32,7 @@ function renderConfetti(confettiSrc: string | null): string {
 function renderHomeButton(uiAssets: ThemeUiAssets): string {
   return `
       <button class="result__action-btn" data-action="go-home" aria-label="Back to start">
-        <img src="${uiAssets.homeButtonSource}"${uiAssets.homeButtonHoverSource ? ` data-hover-src="${uiAssets.homeButtonHoverSource}"` : ''} alt="Home">
+        <img src="${uiAssets.homeButtonSource}" alt="Home">
       </button>`;
 }
 
@@ -44,37 +44,32 @@ export function renderGameOverView(): string {
   return `
     <section class="view view--result" data-view="game-over">
       ${renderConfetti(uiAssets.confettiSrc)}
-      <img class="result__game-over-title" src="${uiAssets.gameOverTitleSrc}" alt="Game over">
+      <h1 class="visually-hidden">Game over</h1>
+      <img class="result__game-over-title" src="${uiAssets.gameOverTitleSrc}" alt="" aria-hidden="true">
       <p class="result__subtitle">Final score</p>
       ${renderScoresTemplate(players.blue.score, players.orange.score, uiAssets)}
       ${homeButton}
     </section>`;
 }
 
-/** Resolves all display values derived from the winner state */
+/** Resolves display values derived from the winner state */
 function resolveWinnerData(
   winner: PlayerId | 'draw' | null,
-  blueScore: number,
-  orangeScore: number,
   uiAssets: ThemeUiAssets
-): { label: string; winnerClass: string; score: string; decorationSrc: string; scoreLabelSrc: string } {
+): { label: string; winnerClass: string; decorationSrc: string } {
   const isDraw = winner === 'draw';
   const label = isDraw ? 'Draw!' : `${winner === 'blue' ? 'Blue' : 'Orange'} Player`;
   const winnerClass = isDraw ? '' : `result__winner--${winner === 'blue' ? 'player-1' : 'player-2'}`;
-  const score = isDraw ? `${blueScore} : ${orangeScore}` : String(winner === 'blue' ? blueScore : orangeScore);
   const pawnColor = isDraw ? 'blue' : winner;
   const decorationSrc = pawnColor === 'blue' ? uiAssets.winnerDecorationBlue : uiAssets.winnerDecorationOrange;
-  const scoreLabelSrc = pawnColor === 'blue' ? uiAssets.scoreIconBlue : uiAssets.scoreIconOrange;
-  return { label, winnerClass, score, decorationSrc, scoreLabelSrc };
+  return { label, winnerClass, decorationSrc };
 }
 
 /** Renders the winner screen */
 export function renderWinnerView(): string {
   const { winner, players, settings } = getState();
   const { uiAssets } = getTheme(settings.themeId);
-  const { label, winnerClass, decorationSrc } = resolveWinnerData(
-    winner, players.blue.score, players.orange.score, uiAssets
-  );
+  const { label, winnerClass, decorationSrc } = resolveWinnerData(winner, uiAssets);
   return `
     <section class="view view--result view--winner" data-view="winner">
       ${renderConfetti(uiAssets.confettiSrc)}

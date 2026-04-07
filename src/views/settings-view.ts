@@ -93,10 +93,21 @@ function renderSettingsGroups(settings: GameSettings): string {
 /** Renders the left column of the settings screen */
 function renderSettingsLeft(settings: GameSettings): string {
   return `
-      <aside class="settings__left" aria-label="Game settings">
+      <section class="settings__left" aria-label="Game settings">
         ${renderSettingsHeader()}
         ${renderSettingsGroups(settings)}
-      </aside>`;
+      </section>`;
+}
+
+/** Renders the three info spans with separators inside the footer */
+function renderFooterInfo(themeName: string, playerLabel: string, boardLabel: string): string {
+  const sep = `<img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">`;
+  return `
+            <span>${themeName}</span>
+            ${sep}
+            <span>${playerLabel}</span>
+            ${sep}
+            <span>${boardLabel}</span>`;
 }
 
 /** Renders the settings footer with current selected values and start button */
@@ -104,15 +115,10 @@ function renderSettingsFooter(settings: GameSettings): string {
   const themeName = getTheme(settings.themeId).name;
   const playerLabel = settings.currentPlayer === 'blue' ? 'Blue' : 'Orange';
   const boardLabel = `${settings.boardSize} cards`;
-
   return `
         <footer class="settings__footer">
           <div class="settings__footer-info">
-            <span>${themeName}</span>
-            <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
-            <span>${playerLabel}</span>
-            <img src="${SETTINGS_SVG}/Line%206.svg" class="settings__footer-sep" alt="">
-            <span>${boardLabel}</span>
+            ${renderFooterInfo(themeName, playerLabel, boardLabel)}
           </div>
           <button class="settings__start-btn" data-action="start-game">
             <img src="${SETTINGS_SVG}/small%20button.svg" data-hover-src="${SETTINGS_SVG}/btn-small-hover.svg" alt="Start">

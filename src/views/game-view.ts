@@ -77,7 +77,7 @@ export function renderScoreBar(): string {
 /** Renders the inner content of the exit dialog */
 function renderExitDialogContent(uiAssets: ThemeUiAssets): string {
   return `
-      <dialog class="exit-dialog" open aria-labelledby="exit-dialog-title">
+      <dialog class="exit-dialog" aria-labelledby="exit-dialog-title">
         <p id="exit-dialog-title" class="exit-dialog__title">
           Are you sure you want to quit the game?
         </p>
@@ -110,8 +110,8 @@ export function renderGameView(): string {
   return `
     <section class="view view--game" data-view="game" data-theme="${settings.themeId}">
       ${renderScoreBar()}
-      <article class="game-board ${gridClass}" id="game-board" aria-label="Memory board">
+      <div class="game-board ${gridClass}" id="game-board" role="grid" aria-label="Memory board">
         ${cardTemplate}
-      </article>
+      </div>
     </section>`;
 }

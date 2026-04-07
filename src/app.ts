@@ -9,6 +9,7 @@ import type { ThemeId, PlayerId, BoardSize, ViewName } from './types/game.types'
 
 const ROOT_ID = 'app';
 const FLIP_DURATION_MS = 500;
+const NO_MATCH_DISPLAY_DELAY_MS = 1000;
 const RESULT_TRANSITION_DELAY_MS = 3000;
 let isProcessing = false;
 
@@ -39,19 +40,8 @@ function applyThemeClass(): void {
   document.body.classList.add(getState().settings.themeId);
 }
 
-/** Reads settings form values and updates state */
-function syncSettingsFromForm(): void {
-  const themeInput = document.querySelector<HTMLInputElement>('input[name="theme"]:checked');
-  const playerInput = document.querySelector<HTMLInputElement>('input[name="player"]:checked');
-  const sizeInput = document.querySelector<HTMLInputElement>('input[name="board-size"]:checked');
-  if (themeInput) updateSettings({ themeId: themeInput.value as ThemeId });
-  if (playerInput) updateSettings({ currentPlayer: playerInput.value as PlayerId });
-  if (sizeInput) updateSettings({ boardSize: Number(sizeInput.value) as BoardSize });
-}
-
 /** Starts a new game from settings */
 function startGame(): void {
-  syncSettingsFromForm();
   const cards = buildCards(getState().settings.boardSize);
   resetGame(cards);
   setView('game');
@@ -106,7 +96,7 @@ function handleNoMatchResult(noMatchIds: number[]): void {
       isProcessing = false;
       updateScoreBar();
     }, FLIP_DURATION_MS);
-  }, 1000);
+  }, NO_MATCH_DISPLAY_DELAY_MS);
 }
 
 /** Handles card flip with no-match delay */
@@ -154,6 +144,15 @@ function handleButtonMouseOut(event: MouseEvent): void {
   hoverableImage.style.height = '';
 }
 
+/** Inserts the exit dialog into the DOM and opens it as a modal */
+function showExitDialog(): void {
+  getRoot().insertAdjacentHTML('beforeend', renderExitDialog());
+  const dialog = getRoot().querySelector<HTMLDialogElement>('.exit-dialog');
+  if (!dialog) return;
+  dialog.addEventListener('cancel', () => document.querySelector('.exit-dialog-overlay')?.remove(), { once: true });
+  dialog.showModal();
+}
+
 /** Global click handler via event delegation */
 function handleClick(event: Event): void {
   const target = (event.target as HTMLElement).closest<HTMLElement>('[data-action]');
@@ -162,10 +161,10 @@ function handleClick(event: Event): void {
 
   if (action === 'go-to-settings') { setView('settings'); renderCurrentView(); }
   else if (action === 'start-game') startGame();
-  else if (action === 'show-exit-dialog') { getRoot().insertAdjacentHTML('beforeend', renderExitDialog()); }
+  else if (action === 'show-exit-dialog') showExitDialog();
   else if (action === 'dismiss-exit-dialog') { document.querySelector('.exit-dialog-overlay')?.remove(); }
   else if (action === 'exit-game') { resetGame([]); setView('settings'); renderCurrentView(); }
-  else if (action === 'go-home') { resetGame([]); setView('settings'); renderCurrentView(); }
+  else if (action === 'go-home') { resetGame([]); setView('home'); renderCurrentView(); }
   else if (action === 'flip-card') {
     const cardId = Number(target.dataset['cardId']);
     handleFlip(cardId);

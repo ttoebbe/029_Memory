@@ -58,7 +58,6 @@ export interface ThemeUiAssets {
   popupConfirmExitButtonHoverSource?: string;
   gameOverTitleSrc: string;
   homeButtonSource: string;
-  homeButtonHoverSource?: string;
   winnerDecorationBlue: string;
   winnerDecorationOrange: string;
   winnerDecorationClass: string;
@@ -69,7 +68,6 @@ export interface ThemeUiAssets {
 export interface Theme {
   id: ThemeId;
   name: string;
-  cardBackClass: string;
   cardImages: string[];
   backCardImage: string;
   settingsPreviewSrc: string;
