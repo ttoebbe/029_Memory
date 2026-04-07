@@ -28,6 +28,11 @@ playwright.config.ts
 # Claude Code
 .claude/
 
+# GitHub folder – only workflows tracked
+.github/
+!.github/workflows/
+!.github/workflows/**
+
 
 # Project-internal (not for repo)
 .DA/
