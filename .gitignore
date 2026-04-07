@@ -17,8 +17,10 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Playwright
+# Playwright / E2E
 playwright.config.ts
+tsconfig.e2e.json
+/e2e/
 /test-results/
 /playwright-report/
 /blob-report/
