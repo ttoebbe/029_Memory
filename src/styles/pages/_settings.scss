@@ -183,6 +183,7 @@
     background-color: var(--color-footer-bg);
     border-radius: 0.5rem;
     font-size: functions.px-to-rem(16);
+    font-weight: bold;
     color: var(--color-text);
 
     @include mixin.respond(sm) {
