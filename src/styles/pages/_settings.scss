@@ -197,7 +197,7 @@
     border-radius: var(--radius-card);
     font-size: functions.px-to-rem(16);
     font-weight: 700;
-    color: var(--color-text);
+    color: var(--color-footer-text);
 
     @include mixin.respond(sm) {
       padding: functions.px-to-rem(12);
