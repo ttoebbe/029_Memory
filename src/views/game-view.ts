@@ -57,7 +57,7 @@ function renderExitButton(uiAssets: ThemeUiAssets): string {
 }
 
 /** Renders the score header */
-function renderScoreBar(): string {
+export function renderScoreBar(): string {
   const { players, settings } = getState();
   const { uiAssets } = getTheme(settings.themeId);
   const currentIconSrc = settings.currentPlayer === 'blue'

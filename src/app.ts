@@ -3,7 +3,7 @@ import { buildCards } from './game/board-builder';
 import { processFlip, processNoMatch } from './game/card-logic';
 import { renderHomeView } from './views/home-view';
 import { renderSettingsView } from './views/settings-view';
-import { renderGameView, renderExitDialog } from './views/game-view';
+import { renderGameView, renderExitDialog, renderScoreBar } from './views/game-view';
 import { renderGameOverView, renderWinnerView } from './views/result-view';
 import type { ThemeId, PlayerId, BoardSize, ViewName } from './types/game.types';
 
@@ -58,6 +58,13 @@ function startGame(): void {
   renderCurrentView();
 }
 
+/** Replaces only the score bar header in the DOM without rebuilding the full view */
+function updateScoreBar(): void {
+  const scoreBarElement = document.querySelector('.score-bar');
+  if (!scoreBarElement) return;
+  scoreBarElement.outerHTML = renderScoreBar();
+}
+
 /** Adds the flipped CSS class to a card DOM element */
 function animateCardFlip(cardId: number): void {
   document.querySelector<HTMLElement>(`[data-card-id="${cardId}"]`)
@@ -82,7 +89,7 @@ function handleMatchResult(matchedIds: number[]): void {
       document.querySelector(`[data-card-id="${cardId}"]`)
         ?.classList.add('memory-card--matched');
     });
-    if (getState().view !== 'game-over') return renderCurrentView();
+    if (getState().view !== 'game-over') return updateScoreBar();
     handleGameOverTransition();
   }, FLIP_DURATION_MS);
 }
@@ -97,7 +104,7 @@ function handleNoMatchResult(noMatchIds: number[]): void {
     setTimeout(() => {
       processNoMatch();
       isProcessing = false;
-      renderCurrentView();
+      updateScoreBar();
     }, FLIP_DURATION_MS);
   }, 1000);
 }
