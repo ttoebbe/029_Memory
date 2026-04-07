@@ -28,8 +28,6 @@ playwright.config.ts
 # Claude Code
 .claude/
 
-# GitHub workflows & config
-.github/
 
 # Project-internal (not for repo)
 .DA/
