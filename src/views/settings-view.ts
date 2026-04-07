@@ -18,7 +18,7 @@ function renderRadioTemplate(
     <label class="settings__option ${checked ? 'settings__option--active' : ''}">
       <input type="radio" name="${name}" value="${value}" ${checked ? 'checked' : ''} class="settings__radio-input">
       <img src="${radioIcon}" class="settings__radio-icon" alt="">
-      <span class="settings__option-label">${label}</span>
+      <span class="settings__option-label" data-label="${label}">${label}</span>
       ${selectLine}
     </label>`;
 }

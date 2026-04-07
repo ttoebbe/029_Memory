@@ -116,6 +116,16 @@
 
   &__option-label {
     font-weight: 400;
+
+    &::after {
+      content: attr(data-label);
+      display: block;
+      font-weight: 700;
+      height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      pointer-events: none;
+    }
   }
 
   &__option--active &__option-label {
@@ -210,6 +220,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    transition: opacity 0.2s ease, transform 0.1s ease;
 
     img {
       height: functions.px-to-rem(59);

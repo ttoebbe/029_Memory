@@ -194,6 +194,7 @@
   padding: 0;
   cursor: pointer;
   margin-top: functions.px-to-rem(8);
+  transition: opacity 0.2s ease, transform 0.1s ease;
 
   img {
     height: functions.px-to-rem(62);

@@ -142,9 +142,9 @@ function handleButtonMouseOut(event: MouseEvent): void {
   if (!button || !isLeavingButton(button, event.relatedTarget)) return;
   const hoverableImage = getHoverableImage(button);
   if (!hoverableImage?.dataset['defaultSrc']) return;
+  hoverableImage.src = hoverableImage.dataset['defaultSrc'];
   hoverableImage.style.width = '';
   hoverableImage.style.height = '';
-  hoverableImage.src = hoverableImage.dataset['defaultSrc'];
 }
 
 /** Global click handler via event delegation */
